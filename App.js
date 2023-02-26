@@ -3,15 +3,14 @@ import './App.css';
 
 import { GoogleMap, useLoadScript, MarkerF, Autocomplete } from "@react-google-maps/api";
 
-//maybe save up to 5 recent searches, and keep the data to avoid more api calls?
-
-let center = {lat: 40.761545, lng: -73.975038}//(for testing, 5th Ave 55th St area)
+let center = {lat: 40.761545, lng: -73.975038}//(default center, 5th Ave 55th St area)
 
 function App() {
 
   let [map, setMap] = useState(/**@type google.maps.Map*/(null));
-  let [userInput, setUserInput] = useState(''); //I think PlacesService will ignore it if the input isn't valid, because it'll give an error response instead of an OK, but check anyway
-  let [markers, setMarkers] = useState([]);
+  let [userInput, setUserInput] = useState('');
+  //let [markers, setMarkers] = useState([]);
+  let [markers, setMarkers] = useState(/**@type google.maps.Marker*/([]));
   let [userLocation, setUserLocation] = useState(/**@type google.maps.LatLng*/(null));
 
   useEffect(() => {
@@ -39,8 +38,32 @@ function App() {
         let locationResults = [];
 
         for (var i = 0; i < results.length; i++) {
-          locationResults.push(results[i]);
+
+          //**INFOWINDOWS**//
+          const marker = new window.google.maps.Marker({
+            position: results[i].geometry.location,
+            map,
+            title: results[i].name,
+          });
+          const infoText =
+            '<div>' +
+            "<p>heyyyy</p>" +
+            "</div>";
+          const infowindow = new window.google.maps.InfoWindow({
+            content: infoText,
+            ariaLabel: results[i].name,
+          });
+          marker.addListener("click", () => {
+            infowindow.open({
+              anchor: marker,
+              map,
+            });
+          });
+          //**INFOWINDOWS**//
+
+          locationResults.push(/*results[i]*/marker); //push marker objects instead
         }
+        //setMarkers(locationResults);
         setMarkers(locationResults);
         //map.setCenter(results[0].geometry.location);
         console.log("searchLocation called");
@@ -103,7 +126,7 @@ function App() {
           onLoad={(map) => setMap(map)} /*onLoad function returns map object, set map to state variable to access it*/
           >
             {/*<MarkerF position={center}></MarkerF>*/}
-            {markers.map(e => <MarkerF position={e.geometry.location}></MarkerF>)}
+            {/*markers.map(e => <MarkerF position={e.geometry.location}></MarkerF>)*/}
           </GoogleMap>
         </div>
     </div>
@@ -125,7 +148,9 @@ export default App;
   -> https://stackoverflow.com/questions/68048432/how-can-i-pass-the-value-of-setstate-on-googlemap-api-function-initialcenter
   -> https://stackoverflow.com/questions/9810624/how-to-get-coordinates-of-the-center-of-the-viewed-area-in-google-maps-using-goo
   -> https://blog.logrocket.com/useeffect-hook-complete-guide/
-  (Errors)
+  -> https://developers.google.com/maps/documentation/javascript/reference/coordinates#LatLng
+  -> https://developers.google.com/maps/documentation/places/web-service/details#Geometry
+  -> https://developers.google.com/maps/documentation/javascript/infowindows
   -> https://stackoverflow.com/questions/50548632/react-google-maps-google-is-not-defined-error
   -> https://stackoverflow.com/questions/72112491/marker-not-showing-react-google-maps-api-on-localhost-next-js
   -> https://stackoverflow.com/questions/48378337/create-react-app-not-picking-up-env-files

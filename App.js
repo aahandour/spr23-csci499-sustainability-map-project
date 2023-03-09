@@ -4,8 +4,10 @@ import './App.css';
 import { GoogleMap, useLoadScript, MarkerF, Autocomplete } from "@react-google-maps/api";
 
 let center = {lat: 40.761545, lng: -73.975038}//(default center, 5th Ave 55th St area)
-let reviews = [{name: "Vivienne Westwood New York", stars: 3, place_id: "ChIJp7KTAPtYwokRDJKEQqB_y44"}, {name: "ya", stars: 3, place_id: "agrgrae"}];
+let reviews = [{name: "Vivienne Westwood New York", stars: 3, place_id: "ChIJp7KTAPtYwokRDJKEQqB_y44"}];
 //these ideally should be saved in MongoDB, and loaded in by calling the backend upon starting the app.
+
+//*take in reviews, display associated reviews when toggled, on map display average star rating (take the average)
 
 function App() {
 
@@ -24,64 +26,35 @@ function App() {
 
   }, [userLocation]) //calls searchLocation only once userLocation is updated
 
-  useEffect(() => {
+  //useEffect(() => {
     
     //searchLocation();
     /*for (let i = 0; i < reviews.length; i++) {
       if (reviews[i].position.lat == markers[markers.length-1].position.lat && reviews[i].position.lng == markers[markers.length-1].position.lng) {
-        markers[markers.length-1]
-
-        let infoText;*/
-        /*if (markers[markers.length-1].stars == null) {
-          infoText =
-            '<div>' +
-            "<p><a>Submit Sustainability Data</a></p>" +
-            "</div>";
-        }
-        else {*/
-        /*  infoText ='<div><p>';
-          for (let i = 0; i < markers[markers.length-1].stars; i++) {
-            infoText += "☆";
-          }
-          infoText += "<p><a>View Detailed Reviews</a></p></div>";
-        }
-          const infowindow = new window.google.maps.InfoWindow({
-            content: infoText,
-            ariaLabel: markers[markers.length-1].name,
-          });
-          markers[markers.length-1].addListener("click", () => {
-            infowindow.open({
-              anchor: markers[markers.length-1],
-              map,
-            });
-          });*/
-      //}
-    //}
-    /*for (let i = 0; i < reviews.length; i++) {
-      if (markers[markers.length-1].place_id == reviews[i].place_id) {
-        console.log("true");
-      }
-      else {
-        console.log("false");
-      }
-    }*/
-
-    //if (markers.length > 0) {console.log(markers[0].place_id)}
-    //else {console.log("empty")};
-    //console.log(reviews[0].place_id);
 
     for (let i = 0; i < reviews.length; i++) {
-      if (markers.length!= 0 && markers[(markers.length)-1].place_id == reviews[i].place_id) {
+      if (markers.length!= 0 && markers[0].place_id == reviews[i].place_id) {
         console.log("match");
 
-        
+        const infoText =
+            '<div>' +
+            "<p><a>Test</a></p>" +
+            "</div>";
+          //const infowindow = new window.google.maps.InfoWindow({
+          ///  content: infoText,
+          //  ariaLabel: reviews[i].name,
+          //});
+          markers[0].addListener("click", () => {
+            //infowindow.open({
+            //  anchor: markers[(markers.length)-1],
+            //  map,
+            //});
+            console.log("click");
+          });
       }
     }
-    //console.log(markers[markers.length-1].position.lat);
-    //console.log(markers[markers.length-1].position.lng);
-    //console.log(markers);
 
-  }, [markers]) //adds infowindow data to a newly added marker
+  }, [markers])*/
 
 
   /*START NEARBY CLOTHING STORES LOCATOR**************************************************************************************************/
@@ -125,6 +98,30 @@ function App() {
               map,
             });
           });*/
+
+          for (let j = 0; j < reviews.length; j++) {
+            if (results[i].place_id == reviews[j].place_id) {
+              console.log("match");
+
+              const marker = new window.google.maps.Marker({
+                position: results[i].geometry.location,
+                map,
+                title: results[i].name,
+              });
+
+              //const infoText = '<div>' + "<p><a>Submit Sustainability Data</a></p>" + "</div>";
+              const infoText = '<div>' + "<p>" + reviews[j].stars + "</p>" + "</div>";
+              const infowindow = new window.google.maps.InfoWindow({
+                content: infoText,
+              });
+              marker.addListener("click", () => {
+                infowindow.open({
+                  anchor: marker,
+                  map,
+                });
+              });
+            }
+          }
 
           //**INFOWINDOWS**//
 
@@ -193,7 +190,7 @@ function App() {
           onLoad={(map) => setMap(map)} /*onLoad function returns map object, set map to state variable to access it*/
           >
             {/*<MarkerF position={center}></MarkerF>*/}
-            {markers.map(e => <MarkerF position={e.geometry.location}></MarkerF>)}
+            {/*markers.map(e => <MarkerF position={e.geometry.location}></MarkerF>)*/}
           </GoogleMap>
         </div>
     </div>

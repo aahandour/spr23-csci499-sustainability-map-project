@@ -26,41 +26,10 @@ function App() {
 
   }, [userLocation]) //calls searchLocation only once userLocation is updated
 
-  //useEffect(() => {
-    
-    //searchLocation();
-    /*for (let i = 0; i < reviews.length; i++) {
-      if (reviews[i].position.lat == markers[markers.length-1].position.lat && reviews[i].position.lng == markers[markers.length-1].position.lng) {
-
-    for (let i = 0; i < reviews.length; i++) {
-      if (markers.length!= 0 && markers[0].place_id == reviews[i].place_id) {
-        console.log("match");
-
-        const infoText =
-            '<div>' +
-            "<p><a>Test</a></p>" +
-            "</div>";
-          //const infowindow = new window.google.maps.InfoWindow({
-          ///  content: infoText,
-          //  ariaLabel: reviews[i].name,
-          //});
-          markers[0].addListener("click", () => {
-            //infowindow.open({
-            //  anchor: markers[(markers.length)-1],
-            //  map,
-            //});
-            console.log("click");
-          });
-      }
-    }
-
-  }, [markers])*/
-
-
   /*START NEARBY CLOTHING STORES LOCATOR**************************************************************************************************/
   let searchLocation = async () => {
 
-    if (markers.length != 0) {setMarkers([]);} //remove markers placed from previous search
+    if (markers.length != 0) {setMarkers([]);} //remove markers placed from previous search *(needs to be replaced)
 
     const request = { //location is a LatLng object not literal
       location: userLocation,
@@ -74,34 +43,20 @@ function App() {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         let locationResults = [];
 
-        for (var i = 0; i < results.length; i++) {
+        for (var i = 0; i < results.length; i++) {//search for each result within the reviews, display associated data (if it exists).
 
           //**INFOWINDOWS**//
-          /*const marker = new window.google.maps.Marker({
-            position: results[i].geometry.location,
-            map,
-            title: results[i].name,
-          });*/
-
-
-          /*const infoText =
-            '<div>' +
-            "<p><a>Submit Sustainability Data</a></p>" +
-            "</div>";
-          const infowindow = new window.google.maps.InfoWindow({
-            content: infoText,
-            ariaLabel: results[i].name,
-          });
-          marker.addListener("click", () => {
-            infowindow.open({
-              anchor: marker,
-              map,
-            });
-          });*/
-
+          //(It's kind of a minor issue in terms of just demonstrating the main functions, but I need to add a method to remove markers placed from previous searches)
+          let match = false;
           for (let j = 0; j < reviews.length; j++) {
             if (results[i].place_id == reviews[j].place_id) {
               console.log("match");
+              match = true;
+
+              let star_string = "";
+              for (let k = 0; k < reviews[j].stars; k++) {
+                star_string += "★";
+              }
 
               const marker = new window.google.maps.Marker({
                 position: results[i].geometry.location,
@@ -109,8 +64,9 @@ function App() {
                 title: results[i].name,
               });
 
-              //const infoText = '<div>' + "<p><a>Submit Sustainability Data</a></p>" + "</div>";
-              const infoText = '<div>' + "<p>" + reviews[j].stars + "</p>" + "</div>";
+              const infoText = '<div>' + "<p>" + star_string + "</p>" + "</div>";
+              //add some link or component to allow users to view & submit detailed reviews here (in infoText)
+
               const infowindow = new window.google.maps.InfoWindow({
                 content: infoText,
               });
@@ -121,6 +77,27 @@ function App() {
                 });
               });
             }
+          }
+
+          if (match == false) {
+            const marker = new window.google.maps.Marker({
+              position: results[i].geometry.location,
+              map,
+              title: results[i].name,
+            });
+
+            const infoText = '<div>' + "<p>" + "No Review Data" + "</p>" + "</div>";
+            //add some link or component to allow users to view & submit detailed reviews here (in infoText)
+
+            const infowindow = new window.google.maps.InfoWindow({
+              content: infoText,
+            });
+            marker.addListener("click", () => {
+              infowindow.open({
+                anchor: marker,
+                map,
+              });
+            });
           }
 
           //**INFOWINDOWS**//

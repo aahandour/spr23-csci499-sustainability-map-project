@@ -49,7 +49,6 @@ function App() {
         for (var i = 0; i < results.length; i++) {//search for each result within the reviews, display associated data (if it exists).
 
           //**INFOWINDOWS**//
-          //(It's kind of a minor issue in terms of just demonstrating the main functions, but I need to add a method to remove markers placed from previous searches)
           let match = false;
           for (let j = 0; j < reviews.length; j++) {
             if (results[i].place_id == reviews[j].place_id) {
@@ -84,7 +83,7 @@ function App() {
             }
           }
 
-          if (match == false) {
+          if (match == false) { //if no matches were found...
             const marker = new window.google.maps.Marker({
               position: results[i].geometry.location,
               map,
@@ -108,12 +107,9 @@ function App() {
           }
 
           //**INFOWINDOWS**//
-
-          //locationResults.push(/*results[i]*/marker); //push marker objects instead?
         }
-        //setMarkers(locationResults);
+
         setMarkers(locationResults);
-        //map.setCenter(results[0].geometry.location);
         console.log("searchLocation called");
       }
     });
@@ -139,7 +135,7 @@ function App() {
         for (var i = 0; i < results.length; i++) {
           locationResults.push(results[i]); //findPlaceFromQuery returns only one
         }
-        /*setMarkers(locationResults);*/
+
         map.setCenter(results[0].geometry.location);
 
         let userCoordinates = new window.google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
@@ -151,7 +147,7 @@ function App() {
   /*END USER INPUT TO COORDINATES**************************************************************************************************/
 
 
-
+  //need to make your own process.env file with your Google Maps API key
   const { isLoaded } = useLoadScript({ 
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ['places']
@@ -163,7 +159,7 @@ function App() {
     <div>
       <Autocomplete><input type="text" onChange={ e => setUserInput(e.target.value)}></input></Autocomplete>
 
-      <button onClick={ /*searchLocation*/ userInputToCoordinates }>Search</button>
+      <button onClick={ userInputToCoordinates }>Search</button>
 
       <div className = "map">
           <GoogleMap 

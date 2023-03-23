@@ -13,23 +13,26 @@ function App() {
 
   let [map, setMap] = useState(/**@type google.maps.Map*/(null));
   let [userInput, setUserInput] = useState('');
-  let [markers, setMarkers] = useState([]);
-  //let [markers, setMarkers] = useState(/**@type google.maps.Marker*/([]));
+  //let [markers, setMarkers] = useState([]);
+  let [markers, setMarkers] = useState(/**@type google.maps.Marker*/([]));
   let [userLocation, setUserLocation] = useState(/**@type google.maps.LatLng*/(null));
 
   //let [reviews, setReviews] = useState([]);
   //these ideally should be saved in MongoDB, and loaded in by calling the backend upon starting the app.
 
   useEffect(() => {
-    
+    //https://developers.google.com/maps/documentation/javascript/reference/marker#Marker.setMap
+    for (let i = 0; i < markers.length; i++) { //clear previous markers
+      markers[i].setMap(null);
+    }
+    setMarkers([]);
+
     searchLocation();
 
   }, [userLocation]) //calls searchLocation only once userLocation is updated
 
   /*START NEARBY CLOTHING STORES LOCATOR**************************************************************************************************/
   let searchLocation = async () => {
-
-    if (markers.length != 0) {setMarkers([]);} //remove markers placed from previous search *(needs to be replaced)
 
     const request = { //location is a LatLng object not literal
       location: userLocation,
@@ -76,6 +79,8 @@ function App() {
                   map,
                 });
               });
+
+              locationResults.push(marker);//*
             }
           }
 
@@ -98,11 +103,13 @@ function App() {
                 map,
               });
             });
+
+            locationResults.push(marker);//*
           }
 
           //**INFOWINDOWS**//
 
-          locationResults.push(results[i]/*marker*/); //push marker objects instead?
+          //locationResults.push(/*results[i]*/marker); //push marker objects instead?
         }
         //setMarkers(locationResults);
         setMarkers(locationResults);

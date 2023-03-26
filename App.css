@@ -85,6 +85,10 @@
   height: min-content;
 }
 
+p {
+  text-align: center;
+}
+
 /*.left-container {
   width: 70%;
   height: 100vh;

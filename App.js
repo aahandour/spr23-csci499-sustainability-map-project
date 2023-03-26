@@ -6,7 +6,10 @@ import UserReviewsPage from "./userReviewsPage";
 import { GoogleMap, useLoadScript, MarkerF, Autocomplete } from "@react-google-maps/api";
 
 let center = {lat: 40.761545, lng: -73.975038}//(default center, 5th Ave 55th St area)
-let reviews = [{name: "Vivienne Westwood New York", stars: 3, place_id: "ChIJp7KTAPtYwokRDJKEQqB_y44"}];
+let reviews = [
+{name: "Vivienne Westwood New York", stars: 4, place_id: "ChIJp7KTAPtYwokRDJKEQqB_y44", body: "There is a lack of information about ensuring ethical treatment of all garment workers in the supply chain, but there are various recycled material items, as well as an activist presence in regards to climate change, and unisex clothing in an attempt to produce less."},
+{name: "Vivienne Westwood New York", stars: 2, place_id: "ChIJp7KTAPtYwokRDJKEQqB_y44", body: "I can't ignore the possibility that garment workers may not be treated fairly in the creation of items, and while there are many recycled or unisex pieces, not everything is. There is also the wastefulness of seasonal collections."}
+];
 //these ideally should be saved in MongoDB, and loaded in by calling the backend upon starting the app.
 
 //*take in reviews, display associated reviews when toggled, on map display average star rating (take the average)
@@ -81,7 +84,7 @@ function App() {
               match = true;
 
               let star_string = "";
-              for (let k = 0; k < reviews[j].stars; k++) {
+              for (let k = 0; k < reviews[j].stars; k++) { //(needs modification) should show avg stars, which should be calculated through all reviews... might remove infowindows anyway
                 star_string += "★";
               }
 

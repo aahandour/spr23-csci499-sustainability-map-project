@@ -22,12 +22,22 @@ const UserReviewsPage = ({targetStoreId, reviews, toggleUserReviews, setToggleUs
         return (null)
     }
     else if (toggleUserReviews == true) {
-        return (
-           <div className = "user-reviews">
-                {<input type="text"></input>}
-                {matchingReviews.map(e => <div><p>{e.name}</p><p>{e.stars} out of 6 Stars</p></div>)}
-           </div>
-        )
+
+        if (matchingReviews.length > 0) {
+            return (
+            <div className = "user-reviews">
+                    <p>{matchingReviews[0].name}</p>
+                    <input type="text"></input>
+                    {matchingReviews.map(e => <div className = "review-box"><p>{e.stars} out of 6 Stars</p><p>{e.body}</p></div>)}
+            </div>
+            )
+        }
+        else {
+            <div className = "user-reviews">
+                    <input type="text"></input>
+                    {matchingReviews.map(e => <div className = "review-box"><p>{e.stars} out of 6 Stars</p><p>{e.body}</p></div>)}
+            </div>
+        }
     }
 }
 

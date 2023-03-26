@@ -45,6 +45,7 @@
   justify-content: center;
   align-items: center;
   background-color: blanchedalmond;
+  overflow-y:auto;
 }
 
 .searchbar {
@@ -66,9 +67,22 @@
 
 .user-reviews {
   margin-top: 10px;
-  width: max-content;
+  width: 600px;
   height: max-content;
   background-color: #61dafb;
+
+  overflow-x:break-word;
+
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+}
+
+.review-box {
+  margin-top:10px;
+  background-color:aliceblue;
+  width: 100%;
+  height: min-content;
 }
 
 /*.left-container {

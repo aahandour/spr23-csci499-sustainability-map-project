@@ -15,7 +15,7 @@ const UserReviewsPage = ({targetStoreId, reviews, toggleUserReviews, setToggleUs
         setMatchingReviews(tempArray);
         console.log(tempArray);
 
-    }, [toggleUserReviews])
+    }, [targetStoreId])
 
 
     if (toggleUserReviews == false) {
@@ -24,7 +24,7 @@ const UserReviewsPage = ({targetStoreId, reviews, toggleUserReviews, setToggleUs
     else if (toggleUserReviews == true) {
         return (
            <div className = "user-reviews">
-                {/*<div><input type="text">Add a review</input></div>*/}
+                {<input type="text"></input>}
                 {matchingReviews.map(e => <div><p>{e.name}</p><p>{e.stars} out of 6 Stars</p></div>)}
            </div>
         )

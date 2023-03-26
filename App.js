@@ -26,6 +26,7 @@ function App() {
 
   let [targetStoreId, setTargetStoreId] = useState(''); //holds place_id of currently selected place (for purpose of tracking input/output of reviews associated with that place)
   let [toggleUserReviews, setToggleUserReviews] = useState(false);
+  let [avgStars, setAvgStars] = useState(0);
 
   //let [reviews, setReviews] = useState([]);
 
@@ -40,12 +41,6 @@ function App() {
     }
 
   }, [targetStoreId]) //test
-
-  //useEffect(() => {
-  //  console.log(toggleUserReviews); //test... doesn't update on multiple clicks, unless you toggle the search again
-  //}, [toggleUserReviews])
-
-
 
   useEffect(() => {
     //https://developers.google.com/maps/documentation/javascript/reference/marker#Marker.setMap
@@ -84,7 +79,7 @@ function App() {
               match = true;
 
               let star_string = "";
-              for (let k = 0; k < reviews[j].stars; k++) { //(needs modification) should show avg stars, which should be calculated through all reviews... might remove infowindows anyway
+              for (let k = 0; k < avgStars; k++) {
                 star_string += "★";
               }
 
@@ -224,7 +219,7 @@ function App() {
           </GoogleMap>
       </div>
 
-      <UserReviewsPage targetStoreId={targetStoreId} reviews={reviews} toggleUserReviews={toggleUserReviews} setToggleUserReviews={setToggleUserReviews}/>
+      <UserReviewsPage avgStars={avgStars} setAvgStars={setAvgStars} targetStoreId={targetStoreId} reviews={reviews} toggleUserReviews={toggleUserReviews} setToggleUserReviews={setToggleUserReviews}/>
 
     </div>
   );

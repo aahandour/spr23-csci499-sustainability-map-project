@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-const UserReviewsPage = ({targetStoreId, reviews, toggleUserReviews, setToggleUserReviews}) => {
+const UserReviewsPage = ({avgStars, setAvgStars, targetStoreId, reviews, toggleUserReviews, setToggleUserReviews}) => {
 
     let [matchingReviews, setMatchingReviews] = useState([]);
-    let [avgStars, setAvgStars] = useState(0);
+    //let [avgStars, setAvgStars] = useState(0);
 
     useEffect(() => { //when clicked on store id changes, change displayed reviews
         let tempArray = [];

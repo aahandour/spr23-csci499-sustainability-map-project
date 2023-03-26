@@ -47,18 +47,23 @@ const UserReviewsPage = ({avgStars, setAvgStars, targetStoreId, reviews, toggleU
         if (matchingReviews.length > 0) {
             return (
             <div className = "user-reviews">
-                    <p>{matchingReviews[0].name}</p>
-                    <p>{avgStars} Stars Average Community Ranking</p>
-                    <input type="text"></input>
+                    <p className="store-name">{matchingReviews[0].name}</p>
+                    <p className="avg-ranking">* {avgStars} Stars Average Community Ranking *</p>
                     {matchingReviews.map(e => <div className = "review-box"><p>{e.stars} out of 6 Stars</p><p>{e.body}</p></div>)}
+                    <p>Found information? Submit a review!</p>
+                    <textarea className="review-input"></textarea>
+                    <div className="footer"></div>
             </div>
             )
         }
         else {
+            return (
             <div className = "user-reviews">
-                    <input type="text"></input>
-                    {matchingReviews.map(e => <div className = "review-box"><p>{e.stars} out of 6 Stars</p><p>{e.body}</p></div>)}
+                    <p>Found information? Submit a review!</p>
+                    <textarea className="review-input"></textarea>
+                    <div className="footer"></div>
             </div>
+            )
         }
     }
 }

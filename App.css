@@ -37,14 +37,17 @@
   }
 }
 
+body {
+  background-color: ivory;
+}
+
 .container {
-  width: 100vw;
+  width: 98vw;
   height: max-content;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: blanchedalmond;
   overflow-y:auto;
 }
 
@@ -69,7 +72,7 @@
   margin-top: 10px;
   width: 600px;
   height: max-content;
-  background-color: #61dafb;
+  /*background-color: ivory;*/
 
   overflow-x:break-word;
 
@@ -79,14 +82,32 @@
 }
 
 .review-box {
-  margin-top:10px;
-  background-color:aliceblue;
+  /*https://www.w3schools.com/css/css3_borders.asp*/
+  color: #f76589;
+  margin-bottom:20px;
+  background-color:mistyrose;
+  border-radius: 25px;
+  border: 2px solid #f76589;
   width: 100%;
   height: min-content;
 }
 
 p {
   text-align: center;
+}
+
+.store-name {
+  font-weight:bold;
+  padding:10px;
+  color: #f76589;
+  background-color:mistyrose;
+  border-radius: 25px;
+  border: 2px solid #f76589;
+}
+
+.avg-ranking {
+  margin-top: 0px;
+  color: #f76589;
 }
 
 /*.left-container {
@@ -108,3 +129,28 @@ p {
   align-items: center;
   background-color: rgb(61, 122, 33);
 }*/
+
+input[type=text] {
+
+  padding:10px;
+  color: #f76589;
+  border-radius: 25px;
+  border: 2px solid #f76589;
+
+}
+
+.review-input {
+
+  box-sizing: border-box;
+  height: 150px;
+  resize: none;
+  padding:10px;
+  color: #f76589;
+  border-radius: 25px;
+  border: 2px solid #f76589;
+}
+
+.footer {
+  width: 600px;
+  height: 30px;
+}

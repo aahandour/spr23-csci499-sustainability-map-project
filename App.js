@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+import UserReviewsPage from "./userReviewsPage";
+
 import { GoogleMap, useLoadScript, MarkerF, Autocomplete } from "@react-google-maps/api";
 
 let center = {lat: 40.761545, lng: -73.975038}//(default center, 5th Ave 55th St area)
@@ -17,8 +19,30 @@ function App() {
   let [markers, setMarkers] = useState(/**@type google.maps.Marker*/([]));
   let [userLocation, setUserLocation] = useState(/**@type google.maps.LatLng*/(null));
 
+  let [infoWindows, setInfoWindows] = useState(/**@type google.maps.InfoWindow*/([])); //the intention is to clear all open infowindows (which are accessible here) when a new one is toggled, but doesn't work yet
+
+  let [targetStoreId, setTargetStoreId] = useState(''); //holds place_id of currently selected place (for purpose of tracking input/output of reviews associated with that place)
+  let [toggleUserReviews, setToggleUserReviews] = useState(false);
+
   //let [reviews, setReviews] = useState([]);
-  //these ideally should be saved in MongoDB, and loaded in by calling the backend upon starting the app.
+
+  useEffect(() => {
+    //https://stackoverflow.com/questions/11378450/google-map-api-v3-how-to-add-custom-data-to-markers
+    console.log(targetStoreId); //outputs place_id string of whatever place marker you click (or rather outputs last clicked marker's place_id....)
+
+    if (targetStoreId != '') {
+      if (toggleUserReviews == false) {
+        setToggleUserReviews(true);
+      }
+    }
+
+  }, [targetStoreId]) //test
+
+  //useEffect(() => {
+  //  console.log(toggleUserReviews); //test... doesn't update on multiple clicks, unless you toggle the search again
+  //}, [toggleUserReviews])
+
+
 
   useEffect(() => {
     //https://developers.google.com/maps/documentation/javascript/reference/marker#Marker.setMap
@@ -45,6 +69,7 @@ function App() {
     service.nearbySearch(request, function(results, status) {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         let locationResults = [];
+        let tempInfoWindows = [];
 
         for (var i = 0; i < results.length; i++) {//search for each result within the reviews, display associated data (if it exists).
 
@@ -63,7 +88,7 @@ function App() {
               const marker = new window.google.maps.Marker({
                 position: results[i].geometry.location,
                 map,
-                title: results[i].name,
+                pid: results[i].place_id, //**
               });
 
               const infoText = '<div>' + "<p>" + star_string + "</p>" + "</div>";
@@ -73,12 +98,23 @@ function App() {
                 content: infoText,
               });
               marker.addListener("click", () => {
+
+                //(Want only one window open at a time, close others upon clicking one)
+                //for (let i = 0; i < infoWindows.length; i++) {
+                //  infoWindows[i].close();
+                //}
+                //********************************************************************
+
+                setTargetStoreId(marker.pid); //**
+
                 infowindow.open({
                   anchor: marker,
                   map,
                 });
+
               });
 
+              //tempInfoWindows.push(infowindow);
               locationResults.push(marker);//*
             }
           }
@@ -87,7 +123,7 @@ function App() {
             const marker = new window.google.maps.Marker({
               position: results[i].geometry.location,
               map,
-              title: results[i].name,
+              pid: results[i].place_id, //**
             });
 
             const infoText = '<div>' + "<p>" + "No Review Data" + "</p>" + "</div>";
@@ -97,18 +133,30 @@ function App() {
               content: infoText,
             });
             marker.addListener("click", () => {
+
+              //(Want only one window open at a time, close others upon clicking one)
+             // for (let i = 0; i < infoWindows.length; i++) {
+              //  infoWindows[i].close();
+              //}
+              //*********************************************************************
+
+              setTargetStoreId(marker.pid); //**
+
               infowindow.open({
                 anchor: marker,
                 map,
               });
+
             });
 
+            //tempInfoWindows.push(infowindow);
             locationResults.push(marker);//*
           }
 
           //**INFOWINDOWS**//
         }
 
+        setInfoWindows(tempInfoWindows);
         setMarkers(locationResults);
         console.log("searchLocation called");
       }
@@ -156,10 +204,11 @@ function App() {
   if (!isLoaded) return <div>loading...</div>;
 
   return (
-    <div>
-      <Autocomplete><input type="text" onChange={ e => setUserInput(e.target.value)}></input></Autocomplete>
+    <div className = "container">
 
-      <button onClick={ userInputToCoordinates }>Search</button>
+      <div className = "searchbar"><Autocomplete><input type="text" onChange={ e => setUserInput(e.target.value)}></input></Autocomplete></div>
+
+      <button className = "search-button" onClick={ userInputToCoordinates }>Search</button>
 
       <div className = "map">
           <GoogleMap 
@@ -169,10 +218,11 @@ function App() {
           options={{disableDefaultUI: true, clickableIcons: false}}
           onLoad={(map) => setMap(map)} /*onLoad function returns map object, set map to state variable to access it*/
           >
-            {/*<MarkerF position={center}></MarkerF>*/}
-            {/*markers.map(e => <MarkerF position={e.geometry.location}></MarkerF>)*/}
           </GoogleMap>
-        </div>
+      </div>
+
+      <UserReviewsPage targetStoreId={targetStoreId} reviews={reviews} toggleUserReviews={toggleUserReviews} setToggleUserReviews={setToggleUserReviews}/>
+
     </div>
   );
 }

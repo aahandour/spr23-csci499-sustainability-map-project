@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getLocationReviews, postLocationReview } from './backendwrappers';
 
 const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setReviewInput, avgStars, setAvgStars, targetStoreId, reviews, toggleUserReviews, setToggleUserReviews}) => {
 
@@ -6,52 +7,43 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     let [userStars, setUserStars] = useState(null);
     let [tempString, setTempString] = useState('');
     //let [avgStars, setAvgStars] = useState(0);
-
-    useEffect(() => { //when clicked on store id changes, change displayed reviews
-        let tempArray = [];
-        
-        for (let i = 0; i < reviews.length; i++) {
-            if (targetStoreId == reviews[i].place_id) {
-
-                tempArray.push(reviews[i]);
-            }
+    useEffect(() => {
+        if(!reviews){
+            getLocationReviews(targetStoreId)
+            .then((response) => {
+                setMatchingReviews(response)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         }
-
-        setMatchingReviews(tempArray);
-        console.log(tempArray);
-
-    }, [targetStoreId, reviews])
+    }, [targetStoreId])
 
     useEffect(() => {
         let tempAvg = 0;
 
-        if (matchingReviews.length > 0) {
+        if (matchingReviews != null && matchingReviews.length > 0) {
 
             for (let i = 0; i < matchingReviews.length; i++) {
 
-                tempAvg+=matchingReviews[i].stars;
+                tempAvg+=matchingReviews[i].rating;
             }
 
             tempAvg = tempAvg/matchingReviews.length;
+            console.log(tempAvg)
         }
 
         setAvgStars(tempAvg);
-        console.log(tempAvg);
 
     }, [matchingReviews])
 
 
     function submitUserReview() {
         console.log(reviewInput);
-        let review = {name: targetStoreName, stars: userStars, place_id: targetStoreId, body: reviewInput};
-        reviews.push(review);
-        console.log(review);
-        console.log(reviews);
+        let review = {place_id: targetStoreId, rating: userStars, review: reviewInput};
+        console.log(targetStoreId, userStars, reviewInput)
+        postLocationReview(targetStoreId, userStars, reviewInput)
     }
-
-    //useEffect(() => {
-        
-    //}, [userStars])
 
     const selectStars = (button) => {
         console.log(button.target.innerHTML);
@@ -64,12 +56,12 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     }
     else if (toggleUserReviews == true) {
 
-        if (matchingReviews.length > 0) {
+        if (matchingReviews != null && matchingReviews.length > 0) {
             return (
             <div className = "user-reviews">
                     <p className="store-name">{targetStoreName}</p>
                     <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
-                    {matchingReviews.map(e => <div className = "review-box"><p>{e.stars} out of 6 Stars</p><p>{e.body}</p></div>)}
+                    {matchingReviews.map(e => <div className = "review-box"><p>{e.rating} out of 6 Stars</p><p>{e.review}</p></div>)}
 
                     <p>Found information? Submit a review!</p>
 

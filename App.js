@@ -4,12 +4,10 @@ import './App.css';
 import UserReviewsPage from "./userReviewsPage";
 
 import { GoogleMap, useLoadScript, MarkerF, Autocomplete } from "@react-google-maps/api";
+import { getLocationReviews, postLocationReview } from './backendwrappers';
 
 let center = {lat: 40.761545, lng: -73.975038}//(default center, 5th Ave 55th St area)
-let reviews = [
-{name: "Vivienne Westwood New York", stars: 4, place_id: "ChIJp7KTAPtYwokRDJKEQqB_y44", body: "There is a lack of information about ensuring ethical treatment of all garment workers in the supply chain, but there are various recycled material items, as well as an activist presence in regards to climate change, and unisex clothing in an attempt to produce less."},
-{name: "Vivienne Westwood New York", stars: 2, place_id: "ChIJp7KTAPtYwokRDJKEQqB_y44", body: "I can't ignore the possibility that garment workers may not be treated fairly in the creation of items, and while there are many recycled or unisex pieces, not everything is. There is also the wastefulness of seasonal collections."}
-];
+
 //these ideally should be saved in MongoDB, and loaded in by calling the backend upon starting the app.
 
 //*take in reviews, display associated reviews when toggled, on map display average star rating (take the average)
@@ -32,12 +30,20 @@ function App() {
 
   let [reviewInput, setReviewInput] = useState('');
 
-  //let [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState([]);
+
   
 
   useEffect(() => {
     //https://stackoverflow.com/questions/11378450/google-map-api-v3-how-to-add-custom-data-to-markers
     console.log(targetStoreId); //outputs place_id string of whatever place marker you click (or rather outputs last clicked marker's place_id....)
+
+    getLocationReviews(targetStoreId)
+    .then((response) => {
+      console.log(response)
+      setReviews(response)
+    })
+    .catch((error) => console.log(error))
 
     if (targetStoreId != '') {
       if (toggleUserReviews == false) {
@@ -78,52 +84,53 @@ function App() {
 
           //**INFOWINDOWS**//
           let match = false;
-          for (let j = 0; j < reviews.length; j++) {
-            if (results[i].place_id == reviews[j].place_id) {
-              console.log("match");
-              match = true;
+          if(targetStoreId != ''){
+            for (let j = 0; j < reviews.length; j++) {
+              if (results[i].place_id == reviews[j].place_id) {
+                console.log("match");
+                match = true;
 
-              let star_string = "";
-              for (let k = 0; k < reviews[j].stars; k++) { //async problems, worst case I could manually add an avg field in the array data just to demonstrate
-                star_string += "★";
-              }
+                let star_string = "";
+                for (let k = 0; k < reviews[j].stars; k++) { //async problems, worst case I could manually add an avg field in the array data just to demonstrate
+                  star_string += "★";
+                }
 
-              const marker = new window.google.maps.Marker({
-                position: results[i].geometry.location,
-                map,
-                pid: results[i].place_id, //**
-                placeName: results[i].name,
-              });
+                const marker = new window.google.maps.Marker({
+                  position: results[i].geometry.location,
+                  map,
+                  pid: results[i].place_id, //**
+                  placeName: results[i].name,
+                });
 
-              const infoText = '<div>' + "<p>" + star_string + "</p>" + "</div>";
-              //add some link or component to allow users to view & submit detailed reviews here (in infoText)
+                const infoText = '<div>' + "<p>" + star_string + "</p>" + "</div>";
+                //add some link or component to allow users to view & submit detailed reviews here (in infoText)
 
-              //const infowindow = new window.google.maps.InfoWindow({
-              //  content: infoText,
-              //});
-              marker.addListener("click", () => {
-
-                //(Want only one window open at a time, close others upon clicking one)
-                //for (let i = 0; i < infoWindows.length; i++) {
-                //  infoWindows[i].close();
-                //}
-                //********************************************************************
-
-                setTargetStoreId(marker.pid); //**
-                setTargetStoreName(marker.placeName);
-
-                //infowindow.open({
-                //  anchor: marker,
-                //  map,
+                //const infowindow = new window.google.maps.InfoWindow({
+                //  content: infoText,
                 //});
+                marker.addListener("click", () => {
 
-              });
+                  //(Want only one window open at a time, close others upon clicking one)
+                  //for (let i = 0; i < infoWindows.length; i++) {
+                  //  infoWindows[i].close();
+                  //}
+                  //********************************************************************
 
-              //tempInfoWindows.push(infowindow);
-              locationResults.push(marker);//*
+                  setTargetStoreId(marker.pid); //**
+                  setTargetStoreName(marker.placeName);
+
+                  //infowindow.open({
+                  //  anchor: marker,
+                  //  map,
+                  //});
+
+                });
+
+                //tempInfoWindows.push(infowindow);
+                locationResults.push(marker);//*
+              }
             }
           }
-
           if (match == false) { //if no matches were found...
             const marker = new window.google.maps.Marker({
               position: results[i].geometry.location,

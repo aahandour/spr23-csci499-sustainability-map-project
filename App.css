@@ -60,8 +60,8 @@ body {
 }
 
 .map-container {
-  width: 600px;
-  height: 500px;
+  width: 80vw;
+  height: 700px;
 }
 
 .search-button {
@@ -97,6 +97,7 @@ p {
 }
 
 .store-name {
+  font-size: 20px;
   font-weight:bold;
   padding:10px;
   color: #f76589;
@@ -107,7 +108,6 @@ p {
 
 .avg-ranking {
   margin-top: 0px;
-  color: #f76589;
 }
 
 /*.left-container {
@@ -153,4 +153,17 @@ input[type=text] {
 .footer {
   width: 600px;
   height: 30px;
+}
+
+button {
+  /*https://www.w3schools.com/css/css3_buttons.asp*/
+  background-color: #f76589;
+  color:white;
+  border-radius: 25px;
+  border: 2px solid #f76589;
+  padding:10px;
+}
+
+.submit-button {
+  margin-top: 20px;
 }

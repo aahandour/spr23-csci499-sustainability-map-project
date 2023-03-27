@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const UserReviewsPage = ({avgStars, setAvgStars, targetStoreId, reviews, toggleUserReviews, setToggleUserReviews}) => {
+const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setReviewInput, avgStars, setAvgStars, targetStoreId, reviews, toggleUserReviews, setToggleUserReviews}) => {
 
     let [matchingReviews, setMatchingReviews] = useState([]);
     //let [avgStars, setAvgStars] = useState(0);
@@ -47,11 +47,12 @@ const UserReviewsPage = ({avgStars, setAvgStars, targetStoreId, reviews, toggleU
         if (matchingReviews.length > 0) {
             return (
             <div className = "user-reviews">
-                    <p className="store-name">{matchingReviews[0].name}</p>
-                    <p className="avg-ranking">* {avgStars} Stars Average Community Ranking *</p>
+                    <p className="store-name">{targetStoreName}</p>
+                    <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
                     {matchingReviews.map(e => <div className = "review-box"><p>{e.stars} out of 6 Stars</p><p>{e.body}</p></div>)}
                     <p>Found information? Submit a review!</p>
-                    <textarea className="review-input"></textarea>
+                    <textarea className="review-input" value={ reviewInput } onChange={ e => setReviewInput(e.target.value) }></textarea>
+                    <button className = "submit-button">Submit Review</button>
                     <div className="footer"></div>
             </div>
             )
@@ -59,8 +60,10 @@ const UserReviewsPage = ({avgStars, setAvgStars, targetStoreId, reviews, toggleU
         else {
             return (
             <div className = "user-reviews">
+                    <p className="store-name">{targetStoreName}</p>
                     <p>Found information? Submit a review!</p>
-                    <textarea className="review-input"></textarea>
+                    <textarea className="review-input" value={ reviewInput } onChange={ e => setReviewInput(e.target.value) }></textarea>
+                    <button className = "submit-button">Submit Review</button>
                     <div className="footer"></div>
             </div>
             )

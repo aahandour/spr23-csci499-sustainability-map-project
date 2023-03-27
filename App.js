@@ -25,8 +25,12 @@ function App() {
   let [infoWindows, setInfoWindows] = useState(/**@type google.maps.InfoWindow*/([])); //the intention is to clear all open infowindows (which are accessible here) when a new one is toggled, but doesn't work yet
 
   let [targetStoreId, setTargetStoreId] = useState(''); //holds place_id of currently selected place (for purpose of tracking input/output of reviews associated with that place)
+  let [targetStoreName, setTargetStoreName] = useState('');
+
   let [toggleUserReviews, setToggleUserReviews] = useState(false);
   let [avgStars, setAvgStars] = useState(0);
+
+  let [reviewInput, setReviewInput] = useState('');
 
   //let [reviews, setReviews] = useState([]);
 
@@ -79,7 +83,7 @@ function App() {
               match = true;
 
               let star_string = "";
-              for (let k = 0; k < avgStars; k++) {
+              for (let k = 0; k < reviews[j].stars; k++) { //async problems, worst case I could manually add an avg field in the array data just to demonstrate
                 star_string += "★";
               }
 
@@ -87,6 +91,7 @@ function App() {
                 position: results[i].geometry.location,
                 map,
                 pid: results[i].place_id, //**
+                placeName: results[i].name,
               });
 
               const infoText = '<div>' + "<p>" + star_string + "</p>" + "</div>";
@@ -104,6 +109,7 @@ function App() {
                 //********************************************************************
 
                 setTargetStoreId(marker.pid); //**
+                setTargetStoreName(marker.placeName);
 
                 infowindow.open({
                   anchor: marker,
@@ -122,6 +128,7 @@ function App() {
               position: results[i].geometry.location,
               map,
               pid: results[i].place_id, //**
+              placeName: results[i].name,
             });
 
             const infoText = '<div>' + "<p>" + "No Review Data" + "</p>" + "</div>";
@@ -139,6 +146,7 @@ function App() {
               //*********************************************************************
 
               setTargetStoreId(marker.pid); //**
+              setTargetStoreName(marker.placeName);
 
               infowindow.open({
                 anchor: marker,
@@ -219,7 +227,7 @@ function App() {
           </GoogleMap>
       </div>
 
-      <UserReviewsPage avgStars={avgStars} setAvgStars={setAvgStars} targetStoreId={targetStoreId} reviews={reviews} toggleUserReviews={toggleUserReviews} setToggleUserReviews={setToggleUserReviews}/>
+      <UserReviewsPage targetStoreName={targetStoreName} setTargetStoreName={setTargetStoreName} reviewInput={reviewInput} setReviewInput={setReviewInput} avgStars={avgStars} setAvgStars={setAvgStars} targetStoreId={targetStoreId} reviews={reviews} toggleUserReviews={toggleUserReviews} setToggleUserReviews={setToggleUserReviews}/>
 
     </div>
   );

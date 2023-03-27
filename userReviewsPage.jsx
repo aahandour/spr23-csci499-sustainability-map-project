@@ -56,7 +56,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     const selectStars = (button) => {
         console.log(button.target.innerHTML);
         setUserStars(button.target.innerHTML);
-        setTempString(button.target.innerHTML+" Stars Selected")
+        setTempString(button.target.innerHTML+" Star(s) Selected")
     }
 
     if (toggleUserReviews == false) {

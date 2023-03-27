@@ -211,7 +211,7 @@ function App() {
 
   //need to make your own process.env file with your Google Maps API key
   const { isLoaded } = useLoadScript({ 
-    googleMapsApiKey: 'AIzaSyD4Fugoz-BoXGKuhVn9z6jQ_okcp8-8uR0',
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ['places']
   });
 

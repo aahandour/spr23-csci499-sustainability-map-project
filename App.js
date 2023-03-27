@@ -33,6 +33,7 @@ function App() {
   let [reviewInput, setReviewInput] = useState('');
 
   //let [reviews, setReviews] = useState([]);
+  
 
   useEffect(() => {
     //https://stackoverflow.com/questions/11378450/google-map-api-v3-how-to-add-custom-data-to-markers
@@ -97,9 +98,9 @@ function App() {
               const infoText = '<div>' + "<p>" + star_string + "</p>" + "</div>";
               //add some link or component to allow users to view & submit detailed reviews here (in infoText)
 
-              const infowindow = new window.google.maps.InfoWindow({
-                content: infoText,
-              });
+              //const infowindow = new window.google.maps.InfoWindow({
+              //  content: infoText,
+              //});
               marker.addListener("click", () => {
 
                 //(Want only one window open at a time, close others upon clicking one)
@@ -111,10 +112,10 @@ function App() {
                 setTargetStoreId(marker.pid); //**
                 setTargetStoreName(marker.placeName);
 
-                infowindow.open({
-                  anchor: marker,
-                  map,
-                });
+                //infowindow.open({
+                //  anchor: marker,
+                //  map,
+                //});
 
               });
 
@@ -134,9 +135,9 @@ function App() {
             const infoText = '<div>' + "<p>" + "No Review Data" + "</p>" + "</div>";
             //add some link or component to allow users to view & submit detailed reviews here (in infoText)
 
-            const infowindow = new window.google.maps.InfoWindow({
-              content: infoText,
-            });
+            //const infowindow = new window.google.maps.InfoWindow({
+            //  content: infoText,
+            //});
             marker.addListener("click", () => {
 
               //(Want only one window open at a time, close others upon clicking one)
@@ -148,10 +149,10 @@ function App() {
               setTargetStoreId(marker.pid); //**
               setTargetStoreName(marker.placeName);
 
-              infowindow.open({
-                anchor: marker,
-                map,
-              });
+              //infowindow.open({
+              //  anchor: marker,
+              //  map,
+              //});
 
             });
 

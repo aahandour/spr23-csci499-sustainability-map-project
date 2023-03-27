@@ -83,11 +83,11 @@ body {
 
 .review-box {
   /*https://www.w3schools.com/css/css3_borders.asp*/
-  color: #f76589;
+  color: #0073df;
   margin-bottom:20px;
-  background-color:mistyrose;
+  background-color:#b8dcff;
   border-radius: 25px;
-  border: 2px solid #f76589;
+  border: 2px solid #0073df;
   width: 100%;
   height: min-content;
 }
@@ -100,10 +100,10 @@ p {
   font-size: 20px;
   font-weight:bold;
   padding:10px;
-  color: #f76589;
-  background-color:mistyrose;
+  color: #0073df;
+  background-color:#b8dcff;
   border-radius: 25px;
-  border: 2px solid #f76589;
+  border: 2px solid #0073df;
 }
 
 .avg-ranking {
@@ -133,9 +133,9 @@ p {
 input[type=text] {
 
   padding:10px;
-  color: #f76589;
+  color: #0073df;
   border-radius: 25px;
-  border: 2px solid #f76589;
+  border: 2px solid #0073df;
 
 }
 
@@ -145,9 +145,9 @@ input[type=text] {
   height: 150px;
   resize: none;
   padding:10px;
-  color: #f76589;
+  color: #0073df;
   border-radius: 25px;
-  border: 2px solid #f76589;
+  border: 2px solid #0073df;
 }
 
 .footer {
@@ -157,10 +157,10 @@ input[type=text] {
 
 button {
   /*https://www.w3schools.com/css/css3_buttons.asp*/
-  background-color: #f76589;
+  background-color: #0073df;
   color:white;
   border-radius: 25px;
-  border: 2px solid #f76589;
+  border: 2px solid #0073df;
   padding:10px;
 }
 

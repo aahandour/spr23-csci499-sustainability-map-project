@@ -36,6 +36,7 @@ function App() {
 
   useEffect(() => {
     //https://stackoverflow.com/questions/11378450/google-map-api-v3-how-to-add-custom-data-to-markers
+    setReviews([])
     console.log(targetStoreId); //outputs place_id string of whatever place marker you click (or rather outputs last clicked marker's place_id....)
 
     getLocationReviews(targetStoreId)
@@ -211,7 +212,7 @@ function App() {
 
   //need to make your own process.env file with your Google Maps API key
   const { isLoaded } = useLoadScript({ 
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: 'AIzaSyD4Fugoz-BoXGKuhVn9z6jQ_okcp8-8uR0',
     libraries: ['places']
   });
 
@@ -235,7 +236,7 @@ function App() {
           </GoogleMap>
       </div>
 
-      <UserReviewsPage targetStoreName={targetStoreName} setTargetStoreName={setTargetStoreName} reviewInput={reviewInput} setReviewInput={setReviewInput} avgStars={avgStars} setAvgStars={setAvgStars} targetStoreId={targetStoreId} reviews={reviews} toggleUserReviews={toggleUserReviews} setToggleUserReviews={setToggleUserReviews}/>
+      <UserReviewsPage targetStoreName={targetStoreName} setTargetStoreName={setTargetStoreName} reviewInput={reviewInput} setReviewInput={setReviewInput} avgStars={avgStars} setAvgStars={setAvgStars} targetStoreId={targetStoreId} reviews={reviews} setReviews={setReviews} toggleUserReviews={toggleUserReviews} setToggleUserReviews={setToggleUserReviews}/>
 
     </div>
   );

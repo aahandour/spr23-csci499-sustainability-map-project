@@ -15,23 +15,16 @@ async function getLocationReviews(place_id) {
 //sends POST request to backend api
 //notes : please include place_id, rating, and text in function call,
 //      not including place_id will result in response error
-function postLocationReview(place_id, rating, text){
+async function postLocationReview(place_id, rating, text){
     if(!place_id){
         return "no place_id"
     }
-    axios.post(`http://127.0.0.1:4000/reviews/submit-review`, {
+    const response = axios.post(`http://127.0.0.1:4000/reviews/submit-review`, {
         place_id : place_id,
         rating : rating,
         review : text
     })
-    .then((response) => {
-        if (response.status == 200){
-            return
-        }
-    })
-    .catch((error) => {
-        console.log(error)
-    })
+    return await response.status == 200
 }
 
 export {getLocationReviews, postLocationReview}

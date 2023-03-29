@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { getLocationReviews, postLocationReview } from './backendwrappers';
 
-const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setReviewInput, avgStars, setAvgStars, targetStoreId, reviews, toggleUserReviews, setToggleUserReviews}) => {
+const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setReviewInput, avgStars, setAvgStars, targetStoreId, reviews, setReviews, toggleUserReviews, setToggleUserReviews}) => {
 
     let [matchingReviews, setMatchingReviews] = useState([]);
     let [userStars, setUserStars] = useState(null);
     let [tempString, setTempString] = useState('');
     //let [avgStars, setAvgStars] = useState(0);
     useEffect(() => {
-        if(!reviews){
-            getLocationReviews(targetStoreId)
-            .then((response) => {
-                setMatchingReviews(response)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+        if(reviews){
+            setMatchingReviews(reviews)
         }
-    }, [targetStoreId])
+    }, [reviews])
 
     useEffect(() => {
         let tempAvg = 0;
@@ -30,10 +24,9 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
             }
 
             tempAvg = tempAvg/matchingReviews.length;
-            console.log(tempAvg)
         }
 
-        setAvgStars(tempAvg);
+        setAvgStars(tempAvg.toPrecision(3));
 
     }, [matchingReviews])
 
@@ -43,6 +36,16 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
         let review = {place_id: targetStoreId, rating: userStars, review: reviewInput};
         console.log(targetStoreId, userStars, reviewInput)
         postLocationReview(targetStoreId, userStars, reviewInput)
+        .then(() => {
+            getLocationReviews(targetStoreId)
+            .then((res) => {
+                setReviews([])
+                setReviews(res)
+                //setMatchingReviews(res)
+            })
+            .catch((err) => console.log(err))
+        })
+        .catch((error) => console.log(error))
     }
 
     const selectStars = (button) => {

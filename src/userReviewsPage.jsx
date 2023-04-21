@@ -20,7 +20,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     let [pageNo, setPageNo] = useState(0);
 
     useEffect(() => {
-
+        //let's log the page number
         console.log("pageNo: "+pageNo);
 
         //only if matchingReviews !empty

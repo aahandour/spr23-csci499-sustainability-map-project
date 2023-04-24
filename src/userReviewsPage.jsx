@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getLocationReviews, postLocationReview } from './backendwrappers';
 
-const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setReviewInput, avgStars, setAvgStars, targetStoreId, reviews, setReviews, toggleUserReviews, setToggleUserReviews}) => {
+const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setReviewInput, avgStars, setAvgStars, targetStoreId, reviews, setReviews, toggleUserReviews, setToggleUserReviews, pageNo, setPageNo}) => {
 
     let [matchingReviews, setMatchingReviews] = useState([]);
     let [userStars, setUserStars] = useState(null);
@@ -14,13 +14,13 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     /*need a useeffect, because the pages value will have to update with each added review*/
     useEffect(() => {
         setPages(Math.ceil(matchingReviews.length/maxReviewsPerPage));
-    }, [reviews])
+    }, [matchingReviews])
 
     let [currentPageContent, setCurrentPageContent] = useState([]); //fill with only section corresponding to pageNo*maxReviewsPerPage (this is the first value of the page)
-    let [pageNo, setPageNo] = useState(0);
+    //let [pageNo, setPageNo] = useState(0);
 
     useEffect(() => {
-        //let's log the page number
+
         console.log("pageNo: "+pageNo);
 
         //only if matchingReviews !empty
@@ -54,14 +54,23 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
             console.log("ERROR - matchingReviews is empty");
         }
 
-    }, [pageNo])
+    }, [pageNo, matchingReviews])
 
     function nextPage() {
-        if (pageNo < pages) {
+        if (pageNo < pages-1) {
             setPageNo(pageNo+1);
         }
         else {
             console.log("Reached end of pages");
+        }
+    }
+
+    function prevPage() {
+        if (pageNo > 0) {
+            setPageNo(pageNo-1);
+        }
+        else {
+            console.log("Can't go back further");
         }
     }
 
@@ -131,7 +140,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     }
 
 
-
+    
     if (toggleUserReviews == false) {
         return (null)
     }
@@ -163,6 +172,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
                     {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p></div>)}
 
                     <button className = "page-button" onClick={ nextPage }>increment pageNo</button>
+                    <button className = "page-button" onClick={ prevPage }>decrement pageNo</button>
                     <button className = "page-button" onClick={ resetPage }>reset pageNo</button>
 
                     <p>Found information? Submit a review!</p>

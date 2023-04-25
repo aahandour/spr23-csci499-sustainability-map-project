@@ -13,23 +13,29 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     //////////////PAGES//////////////////
     const maxReviewsPerPage = 2; //low test value
     let [pages, setPages] = useState(Math.ceil(matchingReviews.length/maxReviewsPerPage)); //https://webdesign.tutsplus.com/tutorials/pagination-with-vanilla-javascript--cms-41896
+
     /*need a useeffect, because the pages value will have to update with each added review*/
     useEffect(() => {
         setPages(Math.ceil(matchingReviews.length/maxReviewsPerPage));
     }, [matchingReviews])
 
-    let [currentPageContent, setCurrentPageContent] = useState([]); //fill with only section corresponding to pageNo*maxReviewsPerPage (this is the first value of the page)
+    /* fill with only section corresponding to pageNo*maxReviewsPerPage (this is the first value of the page) */
+    let [currentPageContent, setCurrentPageContent] = useState([]);
     let [pageNo, setPageNo] = useState(0);
 
-    let [atEndOfPages, setAtEndOfPages] = useState(false);
-    let [atFrontOfPages, setAtFrontOfPages] = useState(false);
+    //let [atEndOfPages, setAtEndOfPages] = useState(false);
+    //let [atFrontOfPages, setAtFrontOfPages] = useState(false);
 
+    /* Resets pageNo to first page upon switching targeted store, else something like being on page 3 of a store with only 1 page of reviews can occur */
+    useEffect(() => {
+        setPageNo(0);
+    }, [targetStoreName]);
 
     useEffect(() => {
 
         console.log("pageNo: "+pageNo);
 
-        //only if matchingReviews !empty
+        /* only if matchingReviews !empty */
         if (matchingReviews.length != 0) {
             let increment = 0;
             let tempPage = [];
@@ -57,7 +63,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
             setCurrentPageContent(tempPage);
         }
         else {
-            console.log("ERROR - matchingReviews is empty");
+            console.log("matchingReviews is empty");
         }
 
     }, [pageNo, matchingReviews])
@@ -97,7 +103,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     }, [currentPageContent])
 
 
-    //still has bug where adding a new review does not reflect instantly..
+    /* Still has bug where adding a new review does not reflect instantly... */
 
     /////////////////////////////////////
 
@@ -129,8 +135,8 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
 
     function submitUserReview() {
 
-        /*add simple Profanities filter*/
-        /*add Verified vs unverified status variable in review objects*/
+        /* add simple Profanities filter? */
+        /* add verified status variable in review objects */
 
         console.log(reviewInput);
         let review = {place_id: targetStoreId, rating: userStars, review: reviewInput};
@@ -174,6 +180,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
         /* (Assumes [★ ★ ★ ★ ★] format) */
         /*for (let i = 0; i < button.id; i++) {
             //need to create id feature for each, 1, 2, 3, 4 ,5... can't use .target.innerHTML
+            //checking id returns undefined...
             starButtons[i].style.backgroundColor = "#b8dcff";
             starButtons[i].style.color = "#0073df";
         }*/
@@ -201,6 +208,8 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
                     <p className="store-name">{targetStoreName}</p>
                     <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
                     {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p></div>)}
+                    
+                    <p>Page {pageNo+1} of {pages}</p>
 
                     {/* Might be good to make prev and jump-to-first buttons disappear if you're at the first page already, etc.. using components */}
                     <div className = "page-navigation">

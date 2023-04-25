@@ -74,8 +74,13 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
         }
     }
 
-    function resetPage() {
+    function firstPage() {
         setPageNo(0);
+        console.log(pageNo);
+    }
+
+    function lastPage() {
+        setPageNo(pages-1);
         console.log(pageNo);
     }
 
@@ -84,6 +89,10 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
         console.log(currentPageContent);
 
     }, [currentPageContent])
+
+
+    //still has bug where adding a new review does not reflect instantly..
+
     /////////////////////////////////////
 
 
@@ -133,12 +142,45 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
         .catch((error) => console.log(error))
     }
 
+
+    //////////////STARS//////////////////
     const selectStars = (button) => {
+
+        const starButtons = document.getElementsByClassName("star-button");
+
+        for (let i = 0; i < starButtons.length; i++) {
+
+            starButtons[i].style.backgroundColor = "#0073df";
+            starButtons[i].style.color = "#ffffff";
+        }
+
+        /*Highlights only selected button*/
+        /* (Assumes [1 2 3 4 5] format) */
+        for (let i = 0; i < starButtons.length; i++) {
+
+            if (starButtons[i].textContent == button.target.innerHTML) {
+                starButtons[i].style.backgroundColor = "#b8dcff";
+                starButtons[i].style.color = "#0073df";
+            }
+        }
+
+        /*Highlights everything up to selected button*/
+        /* (Assumes [★ ★ ★ ★ ★] format) */
+        /*for (let i = 0; i < button.id; i++) {
+            //need to create id feature for each, 1, 2, 3, 4 ,5... can't use .target.innerHTML
+            starButtons[i].style.backgroundColor = "#b8dcff";
+            starButtons[i].style.color = "#0073df";
+        }*/
+
         console.log(button.target.innerHTML);
         setUserStars(button.target.innerHTML);
-        setTempString(button.target.innerHTML+" Star(s) Selected")
-    }
+        setTempString(button.target.innerHTML+" Star(s) Selected");
 
+        /*console.log(button.id);
+        setUserStars(button.id);
+        setTempString(button.id+" Star(s) Selected");*/
+    }
+    /////////////////////////////////////
 
     
     if (toggleUserReviews == false) {
@@ -146,26 +188,9 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     }
     else if (toggleUserReviews == true) {
 
-        if (matchingReviews != null && matchingReviews.length > 0) {
+        if (matchingReviews != null && matchingReviews.length > 0) { /*REVIEWS EXIST*/
 
             return (
-            /*<div className = "user-reviews">
-                    <p className="store-name">{targetStoreName}</p>
-                    <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
-                    {matchingReviews.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p></div>)}
-
-                    <button className = "page-button" onClick={ nextPage }>increment pageNo</button>
-                    <button className = "page-button" onClick={ resetPage }>reset pageNo</button>
-
-                    <p>Found information? Submit a review!</p>
-
-                    <p>Stars: <button onClick={ selectStars }>1</button><button onClick={ selectStars }>2</button><button onClick={ selectStars }>3</button><button onClick={ selectStars }>4</button><button onClick={ selectStars }>5</button></p>
-                    <p>{tempString}</p>
-
-                    <textarea className="review-input" value={ reviewInput } onChange={ e => setReviewInput(e.target.value) }></textarea>
-                    <button className = "submit-button" onClick={ submitUserReview }>Submit Review</button>
-                    <div className="footer"></div>
-            </div>*///
             <div className = "user-reviews">
                     <p className="store-name">{targetStoreName}</p>
                     <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
@@ -173,11 +198,13 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
 
                     <button className = "page-button" onClick={ nextPage }>increment pageNo</button>
                     <button className = "page-button" onClick={ prevPage }>decrement pageNo</button>
-                    <button className = "page-button" onClick={ resetPage }>reset pageNo</button>
+                    <button className = "page-button" onClick={ firstPage }>go to front</button>
+                    <button className = "page-button" onClick={ lastPage }>go to end</button>
 
                     <p>Found information? Submit a review!</p>
 
-                    <p>Stars: <button onClick={ selectStars }>1</button><button onClick={ selectStars }>2</button><button onClick={ selectStars }>3</button><button onClick={ selectStars }>4</button><button onClick={ selectStars }>5</button></p>
+                    <p>Stars: <button class="star-button" onClick={ selectStars }>1</button><button class="star-button" onClick={ selectStars }>2</button><button class="star-button" onClick={ selectStars }>3</button><button class="star-button" onClick={ selectStars }>4</button><button class="star-button" onClick={ selectStars }>5</button></p>
+                    {/*<p>Stars: <button class="star-button" onClick={ selectStars }>★</button><button class="star-button" onClick={ selectStars }>★</button><button class="star-button" onClick={ selectStars }>★</button><button class="star-button" onClick={ selectStars }>★</button><button class="star-button" onClick={ selectStars }>★</button></p>*/}
                     <p>{tempString}</p>
 
                     <textarea className="review-input" value={ reviewInput } onChange={ e => setReviewInput(e.target.value) }></textarea>
@@ -186,14 +213,14 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
             </div>
             )
         }
-        else {
+        else { /*NO REVIEWS*/
             return (
             <div className = "user-reviews">
                     <p className="store-name">{targetStoreName}</p>
 
                     <p>Found information? Submit a review!</p>
 
-                    <p>Stars: <button onClick={ selectStars }>1</button><button onClick={ selectStars }>2</button><button onClick={ selectStars }>3</button><button onClick={ selectStars }>4</button><button onClick={ selectStars }>5</button><button onClick={ selectStars }>6</button></p>
+                    <p>Stars: <button class="star-button" onClick={ selectStars }>1</button><button class="star-button" onClick={ selectStars }>2</button><button class="star-button" onClick={ selectStars }>3</button><button class="star-button" onClick={ selectStars }>4</button><button class="star-button" onClick={ selectStars }>5</button></p>
                     <p>{tempString}</p>
 
                     <textarea className="review-input" value={ reviewInput } onChange={ e => setReviewInput(e.target.value) }></textarea>

@@ -171,3 +171,9 @@ button {
 .page-button {
   margin-bottom: 20px;
 }
+
+.page-navigation {
+  /*background-color:aquamarine;*/
+  display:flex;
+  justify-content: center;
+}

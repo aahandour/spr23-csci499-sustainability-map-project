@@ -35,7 +35,7 @@ function App() {
   const [reviews, setReviews] = useState([]);
 
   //?
-  let [pageNo, setPageNo] = useState(0);
+  //let [pageNo, setPageNo] = useState(0);
 
   useEffect(() => {
     //https://stackoverflow.com/questions/11378450/google-map-api-v3-how-to-add-custom-data-to-markers
@@ -239,7 +239,7 @@ function App() {
           </GoogleMap>
       </div>
 
-      <UserReviewsPage targetStoreName={targetStoreName} setTargetStoreName={setTargetStoreName} reviewInput={reviewInput} setReviewInput={setReviewInput} avgStars={avgStars} setAvgStars={setAvgStars} targetStoreId={targetStoreId} reviews={reviews} setReviews={setReviews} toggleUserReviews={toggleUserReviews} setToggleUserReviews={setToggleUserReviews} pageNo={pageNo} setPageNo={setPageNo}/>
+      <UserReviewsPage targetStoreName={targetStoreName} setTargetStoreName={setTargetStoreName} reviewInput={reviewInput} setReviewInput={setReviewInput} avgStars={avgStars} setAvgStars={setAvgStars} targetStoreId={targetStoreId} reviews={reviews} setReviews={setReviews} toggleUserReviews={toggleUserReviews} setToggleUserReviews={setToggleUserReviews}/>
 
     </div>
   );

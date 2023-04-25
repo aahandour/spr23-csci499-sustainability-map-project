@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { getLocationReviews, postLocationReview } from './backendwrappers';
 
-const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setReviewInput, avgStars, setAvgStars, targetStoreId, reviews, setReviews, toggleUserReviews, setToggleUserReviews, pageNo, setPageNo}) => {
+//import PageNavigation from "./pageNavigation";
+
+const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setReviewInput, avgStars, setAvgStars, targetStoreId, reviews, setReviews, toggleUserReviews, setToggleUserReviews}) => {
 
     let [matchingReviews, setMatchingReviews] = useState([]);
     let [userStars, setUserStars] = useState(null);
@@ -17,7 +19,11 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     }, [matchingReviews])
 
     let [currentPageContent, setCurrentPageContent] = useState([]); //fill with only section corresponding to pageNo*maxReviewsPerPage (this is the first value of the page)
-    //let [pageNo, setPageNo] = useState(0);
+    let [pageNo, setPageNo] = useState(0);
+
+    let [atEndOfPages, setAtEndOfPages] = useState(false);
+    let [atFrontOfPages, setAtFrontOfPages] = useState(false);
+
 
     useEffect(() => {
 
@@ -196,10 +202,12 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
                     <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
                     {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p></div>)}
 
-                    <button className = "page-button" onClick={ nextPage }>increment pageNo</button>
-                    <button className = "page-button" onClick={ prevPage }>decrement pageNo</button>
-                    <button className = "page-button" onClick={ firstPage }>go to front</button>
-                    <button className = "page-button" onClick={ lastPage }>go to end</button>
+                    <div className = "page-navigation">
+                        <button className = "page-button" onClick={ firstPage } title="Jump to first page">{'<<'}</button>
+                        <button className = "page-button" onClick={ prevPage } title="Previous">{'<'}</button>
+                        <button className = "page-button" onClick={ nextPage } title="Next">{'>'}</button>
+                        <button className = "page-button" onClick={ lastPage } title="Jump to last page">{'>>'}</button>
+                    </div>
 
                     <p>Found information? Submit a review!</p>
 

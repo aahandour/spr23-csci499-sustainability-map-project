@@ -202,6 +202,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
                     <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
                     {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p></div>)}
 
+                    {/* Might be good to make prev and jump-to-first buttons disappear if you're at the first page already, etc.. using components */}
                     <div className = "page-navigation">
                         <button className = "page-button" onClick={ firstPage } title="Jump to first page">{'<<'}</button>
                         <button className = "page-button" onClick={ prevPage } title="Previous">{'<'}</button>

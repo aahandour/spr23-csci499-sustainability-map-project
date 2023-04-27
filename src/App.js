@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 import UserReviewsPage from "./userReviewsPage";
+import LogInPrompt from "./LogInPrompt";
+import MenuButton from "./MenuButton";
+import Menu from "./Menu";
 
 import { GoogleMap, useLoadScript, MarkerF, Autocomplete } from "@react-google-maps/api";
 import { getLocationReviews, postLocationReview } from './backendwrappers';
@@ -15,6 +18,9 @@ let center = {lat: 40.761545, lng: -73.975038}//(default center, 5th Ave 55th St
 let TEST_USERS = 0; /*make a test user for limiting number of posts*/
 
 function App() {
+
+  let [loggedInUser, setLoggedInUser] = useState(null);
+  let [showMenu, setShowMenu] = useState(false);
 
   let [map, setMap] = useState(/**@type google.maps.Map*/(null));
   let [userInput, setUserInput] = useState('');
@@ -223,6 +229,14 @@ function App() {
 
   return (
     <div className = "container">
+
+      <div className = "navbar">
+        <LogInPrompt loggedInUser={loggedInUser}/>
+        <p>Sustainability Map</p>
+        <MenuButton showMenu={showMenu} setShowMenu={setShowMenu} />
+      </div>
+
+      <Menu showMenu={showMenu}/>
 
       <div className = "searchbar"><Autocomplete><input type="text" onChange={ e => setUserInput(e.target.value)}></input></Autocomplete></div>
 

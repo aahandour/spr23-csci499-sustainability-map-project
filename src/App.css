@@ -1,3 +1,8 @@
+*{
+  margin: 0px;
+  padding: 0px;
+}
+
 .App {
   text-align: center;
 }
@@ -38,11 +43,12 @@
 }
 
 body {
-  background-color: ivory;
+  /*background-color: ivory;*/
+  background-color: darkcyan; /*test color for ease of visibility in regards to graphical errors*/
 }
 
 .container {
-  width: 98vw;
+  width: 100vw;
   height: max-content;
   display: flex;
   flex-direction: column;
@@ -176,4 +182,28 @@ button {
   /*background-color:aquamarine;*/
   display:flex;
   justify-content: center;
+}
+
+.navbar {
+  color:white;
+
+  width: 100vw;
+  height: 40px;
+  background-color: #0073df;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu {
+  z-index:1;
+  position: absolute;
+  background-color:#61dafb;
+
+  top: 40px;
+  right: 0px;
+
+  height: 200px;
+  width: 100px;
 }

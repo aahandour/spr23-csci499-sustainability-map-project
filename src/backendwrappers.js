@@ -36,7 +36,7 @@ async function onLogin(id_token) {
         return
     }
     else{
-        const response = await axios.post(`http://127.0.0.1:4000/login`, {message : 'New User Logged in'}, config);
+        await axios.post(`http://127.0.0.1:4000/login`, {message : 'New User Logged in'}, config);
     }
 }
 

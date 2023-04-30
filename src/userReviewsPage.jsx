@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getLocationReviews, postLocationReview } from './backendwrappers';
+import { useAuth0 } from "@auth0/auth0-react"
 
 //import PageNavigation from "./pageNavigation";
 
@@ -9,6 +10,8 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     let [userStars, setUserStars] = useState(null);
     let [tempString, setTempString] = useState('');
     //let [avgStars, setAvgStars] = useState(0);
+
+    const { isAuthenticated, loginWithRedirect, user} = useAuth0()
 
     //////////////PAGES//////////////////
     const maxReviewsPerPage = 2; //low test value
@@ -137,11 +140,15 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
 
         /* add simple Profanities filter? */
         /* add verified status variable in review objects */
+        if(!isAuthenticated){
+            loginWithRedirect();
+        }
+
 
         console.log(reviewInput);
         let review = {place_id: targetStoreId, rating: userStars, review: reviewInput};
         console.log(targetStoreId, userStars, reviewInput)
-        postLocationReview(targetStoreId, userStars, reviewInput)
+        postLocationReview(targetStoreId, userStars, reviewInput, user.sub)
         .then(() => {
             getLocationReviews(targetStoreId)
             .then((res) => {

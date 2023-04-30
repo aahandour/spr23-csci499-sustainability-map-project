@@ -15,16 +15,29 @@ async function getLocationReviews(place_id) {
 //sends POST request to backend api
 //notes : please include place_id, rating, and text in function call,
 //      not including place_id will result in response error
-async function postLocationReview(place_id, rating, text){
+async function postLocationReview(place_id, rating, text, user_id){
     if(!place_id){
         return "no place_id"
     }
     const response = axios.post(`http://127.0.0.1:4000/reviews/submit-review`, {
         place_id : place_id,
+        user_id : user_id,
         rating : rating,
         review : text
     })
-    return await response.status == 200
+    return await response.status === 200
 }
 
-export {getLocationReviews, postLocationReview}
+async function onLogin(id_token) {
+    let config = {
+        headers : {'Authorization' : `Bearer ${id_token}`}
+    }
+    if(!id_token){
+        return
+    }
+    else{
+        const response = await axios.post(`http://127.0.0.1:4000/login`, {message : 'New User Logged in'}, config);
+    }
+}
+
+export {getLocationReviews, postLocationReview, onLogin}

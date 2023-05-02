@@ -136,7 +136,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     }, [matchingReviews])
 
 
-    function submitUserReview() {
+    async function submitUserReview() {
 
         /* add simple Profanities filter? */
         /* add verified status variable in review objects */
@@ -150,13 +150,13 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
         console.log(targetStoreId, userStars, reviewInput)
         postLocationReview(targetStoreId, userStars, reviewInput, user.sub)
         .then(() => {
-            getLocationReviews(targetStoreId)
-            .then((res) => {
-                setReviews([])
-                setReviews(res)
-                //setMatchingReviews(res)
-            })
-            .catch((err) => console.log(err))
+            console.log("review posted")
+            setTimeout(() => {
+                getLocationReviews(targetStoreId).then((res) => {
+                    setReviews([])
+                    setReviews(res)
+                }).catch(err => console.log(err))
+            }, 200);
         })
         .catch((error) => console.log(error))
     }

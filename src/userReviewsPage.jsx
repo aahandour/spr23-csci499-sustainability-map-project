@@ -11,7 +11,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     let [tempString, setTempString] = useState('');
     //let [avgStars, setAvgStars] = useState(0);
 
-    const { isAuthenticated, loginWithRedirect, user} = useAuth0()
+    const { isAuthenticated, loginWithRedirect, user, getIdTokenClaims} = useAuth0()
 
     //////////////PAGES//////////////////
     const maxReviewsPerPage = 2; //low test value
@@ -144,11 +144,13 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
             loginWithRedirect();
         }
 
+        const id = await getIdTokenClaims()
+
 
         console.log(reviewInput);
         let review = {place_id: targetStoreId, rating: userStars, review: reviewInput};
         console.log(targetStoreId, userStars, reviewInput)
-        postLocationReview(targetStoreId, userStars, reviewInput, user.sub)
+        postLocationReview(targetStoreId, userStars, reviewInput, user.sub, id.__raw)
         .then(() => {
             console.log("review posted")
             setTimeout(() => {

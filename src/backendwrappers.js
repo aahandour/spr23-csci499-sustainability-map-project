@@ -15,7 +15,7 @@ async function getLocationReviews(place_id) {
 //sends POST request to backend api
 //notes : please include place_id, rating, and text in function call,
 //      not including place_id will result in response error
-async function postLocationReview(place_id, rating, text, user_id){
+async function postLocationReview(place_id, rating, text, user_id, auth_token){
     if(!place_id){
         return "no place_id"
     }
@@ -24,6 +24,8 @@ async function postLocationReview(place_id, rating, text, user_id){
         user_id : user_id,
         rating : rating,
         review : text
+    }, {
+        headers: {'Authorization': `Bearer ${auth_token}`}
     })
     return await response.status === 200
 }

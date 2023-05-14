@@ -164,6 +164,8 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     }
 
     async function deleteUserReview(review_id, place_id){
+        //TODO: DELETE FUNCTION CURRENTLY WORKS FOR ALL REVIEWS,
+        //DELETE FUNCTION SHOULD ONLY WORK ON REVIEWS BELONGING TO CURRENT USER
         deleteReview(getIdTokenClaims(), review_id, place_id)
         .then(() => {
             console.log('review deleted')

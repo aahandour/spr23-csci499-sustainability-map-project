@@ -6,7 +6,6 @@ REVIEWS SCHEMA
     author_id: ""
     rating: Number
     review: ""
-    is_verified: ""?
 }
 */
 const reviewSchema = new mongoose.Schema({
@@ -25,11 +24,7 @@ const reviewSchema = new mongoose.Schema({
   review: {
     type: String,
     maxlength: 1000
-  }/*,
-  is_verified: {
-    type: String,
-    maxlength: 10
-  }*/
+  }
 }, { timestamps: true })
 
 const Review = mongoose.model('Review', reviewSchema)

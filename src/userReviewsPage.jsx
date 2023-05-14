@@ -11,7 +11,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     let [tempString, setTempString] = useState('');
     //let [avgStars, setAvgStars] = useState(0);
 
-    let [isVerified, setVerifiedStatus] = useState('Unverified');
+    //let [isVerified, setVerifiedStatus] = useState('Unverified');
 
     const { isAuthenticated, loginWithRedirect, user, getIdTokenClaims} = useAuth0()
 
@@ -146,9 +146,9 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
 
 
         console.log(reviewInput);
-        let review = {place_id: targetStoreId, rating: userStars, review: reviewInput, is_verified: isVerified};
-        console.log(targetStoreId, userStars, reviewInput, isVerified)
-        postLocationReview(targetStoreId, userStars, reviewInput, user.sub, id.__raw, isVerified/*!*/)
+        let review = {place_id: targetStoreId, rating: userStars, review: reviewInput};
+        console.log(targetStoreId, userStars, reviewInput)
+        postLocationReview(targetStoreId, userStars, reviewInput, user.sub, id.__raw)
         .then(() => {
             console.log("review posted")
             setTimeout(() => {
@@ -214,9 +214,9 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
             <div className = "user-reviews">
                     <p className="store-name">{targetStoreName}</p>
                     <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
-                    {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.is_verified}</p><p>{e.review}</p></div>)}
+                    {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p></div>)}
                     
-                    <p>Page {pageNo+1} of {pages}</p>
+                    <p className ="pageno-string">Page {pageNo+1} of {pages}</p>
 
                     {/* Might be good to make prev and jump-to-first buttons disappear if you're at the first page already, etc.. using components */}
                     <div className = "page-navigation">
@@ -228,9 +228,9 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
 
                     <p>Found information? Submit a review!</p>
 
-                    <p>Stars: <button class="star-button" onClick={ selectStars }>1</button><button class="star-button" onClick={ selectStars }>2</button><button class="star-button" onClick={ selectStars }>3</button><button class="star-button" onClick={ selectStars }>4</button><button class="star-button" onClick={ selectStars }>5</button></p>
+                    <p class="stars">Stars: <button class="star-button" onClick={ selectStars }>1</button><button class="star-button" onClick={ selectStars }>2</button><button class="star-button" onClick={ selectStars }>3</button><button class="star-button" onClick={ selectStars }>4</button><button class="star-button" onClick={ selectStars }>5</button></p>
                     {/*<p>Stars: <button class="star-button" onClick={ selectStars }>★</button><button class="star-button" onClick={ selectStars }>★</button><button class="star-button" onClick={ selectStars }>★</button><button class="star-button" onClick={ selectStars }>★</button><button class="star-button" onClick={ selectStars }>★</button></p>*/}
-                    <p>{tempString}</p>
+                    <p className="star-string">{tempString}</p>
 
                     <textarea className="review-input" value={ reviewInput } onChange={ e => setReviewInput(e.target.value) }></textarea>
                     <button className = "submit-button" onClick={ submitUserReview }>Submit Review</button>
@@ -246,7 +246,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
                     <p>Found information? Submit a review!</p>
 
                     <p>Stars: <button class="star-button" onClick={ selectStars }>1</button><button class="star-button" onClick={ selectStars }>2</button><button class="star-button" onClick={ selectStars }>3</button><button class="star-button" onClick={ selectStars }>4</button><button class="star-button" onClick={ selectStars }>5</button></p>
-                    <p>{tempString}</p>
+                    <p className="star-string">{tempString}</p>
 
                     <textarea className="review-input" value={ reviewInput } onChange={ e => setReviewInput(e.target.value) }></textarea>
                     <button className = "submit-button" onClick={ submitUserReview }>Submit Review</button>

@@ -18,15 +18,15 @@ const MenuButton = ({showMenu, setShowMenu}) => {
 
     if (showMenu == false) {
         return (
-            <div onClick={toggleMenu}>
-                <p>Menu</p>
+            <div className = "menu-button" onClick={toggleMenu}>
+                <p>Show Menu</p>
             </div>
         );
     }
     else {
         return (
-            <div onClick={toggleMenu}>
-                <p>Menu (true)</p>
+            <div className = "menu-button" onClick={toggleMenu}>
+                <p>Hide Menu</p>
             </div>
         );
     }

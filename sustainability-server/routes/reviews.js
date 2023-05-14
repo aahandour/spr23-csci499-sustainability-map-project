@@ -9,9 +9,9 @@ const bodyParser = require('body-parser')
 router.use(bodyParser.json())
 
 router.post('/submit-review', auth,  async (req, res) => {
-  const { place_id, user_id, rating, review/*, verified_status*/ } = req.body
+  const { place_id, user_id, rating, review } = req.body
 
-  if (!place_id || !rating || !review || !user_id /*|| !verified_status*/) {
+  if (!place_id || !rating || !review || !user_id) {
     return res.status(400).json({
       message: 'MISSING REQUIRED PARAMETER'
     })
@@ -28,7 +28,7 @@ router.post('/submit-review', auth,  async (req, res) => {
 
   console.log(author_id)
 
-  if (!place_id || !rating || !review || !user_id /*|| !verified_status*/) {
+  if (!place_id || !rating || !review || !user_id) {
     return res.status(400).json({
       message: 'MISSING REQUIRED PARAMETER'
     })
@@ -39,8 +39,7 @@ router.post('/submit-review', auth,  async (req, res) => {
       place_id,
       author_id,
       rating,
-      review/*,
-      verified_status*/
+      review
     })
 
     if (!await Location.findOne({ place_id })) {

@@ -301,7 +301,7 @@ function App() {
 
       <div className = "navbar">
         <LOG_IN_OUT/>
-        <p>Sustainability Map</p>
+        <p>Nearby Clothing Store Sustainability Map</p>
         <MenuButton showMenu={showMenu} setShowMenu={setShowMenu} />
       </div>
 

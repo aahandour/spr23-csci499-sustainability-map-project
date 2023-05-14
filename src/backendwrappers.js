@@ -42,4 +42,15 @@ async function onLogin(id_token) {
     }
 }
 
-export {getLocationReviews, postLocationReview, onLogin}
+async function deleteReview(id_token, review_id) {
+    let config = {
+        headers : {'Authorization' : `Bearer ${id_token}`}
+    }
+    if(!id_token || !review_id){
+        return
+    }
+    await axios.delete(`http://127.0.0.1:4000/delete-review/${review_id}`)
+
+}
+
+export {getLocationReviews, postLocationReview, onLogin, deleteReview}

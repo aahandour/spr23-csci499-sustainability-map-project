@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { getLocationReviews, postLocationReview } from './backendwrappers';
+import { getLocationReviews, postLocationReview, deleteReview} from './backendwrappers';
 import { useAuth0 } from "@auth0/auth0-react"
 
 //import PageNavigation from "./pageNavigation";
+
 
 const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setReviewInput, avgStars, setAvgStars, targetStoreId, reviews, setReviews, toggleUserReviews, setToggleUserReviews}) => {
 
@@ -135,7 +136,6 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
 
     }, [matchingReviews])
 
-
     async function submitUserReview() {
 
         /* add simple Profanities filter? */
@@ -216,7 +216,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
             <div className = "user-reviews">
                     <p className="store-name">{targetStoreName}</p>
                     <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
-                    {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p></div>)}
+                    {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p><button>Delete</button></div>)}
                     
                     <p>Page {pageNo+1} of {pages}</p>
 

@@ -1,173 +1,54 @@
-*{
-  margin: 0px;
-  padding: 0px;
-}
-
 .App {
-  text-align: center;
-}
-
-body {
-  /*background-color: ivory;*/
-  background-color: darkcyan; /* (test color for ease of visibility) */
-}
-
-.container {
-  width: 100vw;
+  width: 98vw;
   height: max-content;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   overflow-y:auto;
+  text-align: center;
+  background-image: url('./images/image2.jpg');
+  min-width: 100%;
+  min-height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+.Product {
+  flex-direction:row;
+  color:white;
 }
 
-.searchbar {
-  width: min-content;
-  height: 15px;
-
-  margin-top:10px;
-  margin-bottom:10px;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-.map-container {
-  width: 80vw;
-  height: 700px;
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
-.search-button {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.geolocation-button {
-  background-color: hotpink;
-  border: 2px solid hotpink;
-}
-
-.user-reviews {
-  margin-top: 10px;
-  width: 600px;
-  height: max-content;
-
-  overflow-x: break-word;
-
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-}
-
-/* 
-  Referenced: https://www.w3schools.com/css/css3_borders.asp
-*/
-.review-box {
-  color: #0073df;
-  margin-bottom:20px;
-  background-color:#b8dcff;
-  border-radius: 25px;
-  border: 2px solid #0073df;
-  width: 100%;
-  height: min-content;
-}
-
-p {
-  text-align: center;
-}
-
-.store-name {
-  font-size: 20px;
-  font-weight:bold;
-  padding:10px;
-  color: #0073df;
-  background-color:#b8dcff;
-  border-radius: 25px;
-  border: 2px solid #0073df;
-}
-
-.avg-ranking {
-  margin-top: 0px;
-}
-
-input[type=text] {
-
-  padding:10px;
-  color: #0073df;
-  border-radius: 25px;
-  border: 2px solid #0073df;
-
-}
-
-.review-input {
-
-  box-sizing: border-box;
-  height: 150px;
-  resize: none;
-  padding:10px;
-  color: #0073df;
-  border-radius: 25px;
-  border: 2px solid #0073df;
-}
-
-.footer {
-  width: 600px;
-  height: 30px;
-}
-
-/* 
-  Referenced: https://www.w3schools.com/css/css3_buttons.asp
-*/
-button {
-  background-color: #0073df;
-  color:white;
-  border-radius: 25px;
-  border: 2px solid #0073df;
-  padding:10px;
-}
-
-.submit-button {
-  margin-top: 20px;
-}
-
-.page-button {
-  margin-bottom: 20px;
-}
-
-.page-navigation {
-  display:flex;
-  justify-content: center;
-}
-
-.navbar {
-  color:white;
-
-  width: 100vw;
-  height: 40px;
-  background-color: #0073df;
-
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.menu {
-  z-index:1;
-  position: absolute;
-  background-color:#61dafb;
-
-  top: 40px;
-  right: 0px;
-
-  height: 200px;
-  width: 100px;
-}
-
-.search {
-  display:flex;
-  flex-direction:row;
-
-  margin-top: 20px;
-  margin-bottom: 20px;
-
   justify-content: center;
-  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

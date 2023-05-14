@@ -8,7 +8,7 @@ async function getLocationReviews(place_id) {
     if(!place_id){
         return
     }
-    const response = await axios.get(`http://127.0.0.1:4000/locations/reviews/${place_id}`)
+    const response = await axios.get(`http://127.0.0.1:3000/locations/reviews/${place_id}`)
     return await response.data.reviews
 }
 
@@ -19,7 +19,7 @@ async function postLocationReview(place_id, rating, text, user_id, auth_token, i
     if(!place_id){
         return "no place_id"
     }
-    const response = axios.post(`http://127.0.0.1:4000/reviews/submit-review`, {
+    const response = axios.post(`http://127.0.0.1:3000/reviews/submit-review`, {
         place_id : place_id,
         user_id : user_id,
         rating : rating,
@@ -39,7 +39,7 @@ async function onLogin(id_token) {
         return
     }
     else{
-        await axios.post(`http://127.0.0.1:4000/login`, {message : 'New User Logged in'}, config);
+        await axios.post(`http://127.0.0.1:3000/login`, {message : 'New User Logged in'}, config);
     }
 }
 

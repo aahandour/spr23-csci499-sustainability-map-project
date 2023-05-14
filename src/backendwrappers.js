@@ -1,5 +1,16 @@
 import axios from 'axios'
 
+async function getUser(user_id, id_token) {
+    if (!user_id || !id_token) {
+        return
+    }
+    const config = {
+        headers : {'Authorization' : `Bearer ${id_token}`}
+    }
+    const user = await axios.get(`http://127.0.0.1:4000/user/${user_id}`, config)
+    return user
+}
+
 //sends GET request to backend api for a particular location
 //returns : reviews array for a given location
 //notes : if a marker has no associated database entry, the backend will deal with creating an entry with this endpoint call
@@ -53,4 +64,4 @@ async function deleteReview(id_token, review_id, place_id) {
 
 }
 
-export {getLocationReviews, postLocationReview, onLogin, deleteReview}
+export {getLocationReviews, postLocationReview, onLogin, deleteReview, getUser}

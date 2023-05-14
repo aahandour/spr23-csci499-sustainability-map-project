@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getLocationReviews, postLocationReview, deleteReview} from './backendwrappers';
+import { getUser, getLocationReviews, postLocationReview, deleteReview} from './backendwrappers';
 import { useAuth0 } from "@auth0/auth0-react"
 
 //import PageNavigation from "./pageNavigation";

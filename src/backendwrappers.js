@@ -8,7 +8,7 @@ async function getUser(user_id, id_token) {
         headers : {'Authorization' : `Bearer ${id_token}`}
     }
     const user = await axios.get(`http://127.0.0.1:4000/user/${user_id}`, config)
-    return user
+    return user.data
 }
 
 //sends GET request to backend api for a particular location

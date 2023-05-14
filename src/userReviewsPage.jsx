@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { getLocationReviews, postLocationReview } from './backendwrappers';
+import { getUser, getLocationReviews, postLocationReview, deleteReview} from './backendwrappers';
+import { useAuth0 } from "@auth0/auth0-react"
 
 //import PageNavigation from "./pageNavigation";
+
 
 const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setReviewInput, avgStars, setAvgStars, targetStoreId, reviews, setReviews, toggleUserReviews, setToggleUserReviews}) => {
 
@@ -9,6 +11,8 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     let [userStars, setUserStars] = useState(null);
     let [tempString, setTempString] = useState('');
     //let [avgStars, setAvgStars] = useState(0);
+
+    const { isAuthenticated, loginWithRedirect, user, getIdTokenClaims} = useAuth0()
 
     //////////////PAGES//////////////////
     const maxReviewsPerPage = 2; //low test value
@@ -132,26 +136,60 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
 
     }, [matchingReviews])
 
-
-    function submitUserReview() {
+    async function submitUserReview() {
 
         /* add simple Profanities filter? */
         /* add verified status variable in review objects */
+        if(!isAuthenticated){
+            loginWithRedirect();
+        }
+
+        const id = await getIdTokenClaims()
+
 
         console.log(reviewInput);
         let review = {place_id: targetStoreId, rating: userStars, review: reviewInput};
         console.log(targetStoreId, userStars, reviewInput)
-        postLocationReview(targetStoreId, userStars, reviewInput)
+        postLocationReview(targetStoreId, userStars, reviewInput, user.sub, id.__raw)
         .then(() => {
-            getLocationReviews(targetStoreId)
-            .then((res) => {
-                setReviews([])
-                setReviews(res)
-                //setMatchingReviews(res)
-            })
-            .catch((err) => console.log(err))
+            console.log("review posted")
+            setTimeout(() => {
+                getLocationReviews(targetStoreId).then((res) => {
+                    setReviews([])
+                    setReviews(res)
+                }).catch(err => console.log(err))
+            }, 1000);
         })
         .catch((error) => console.log(error))
+    }
+
+    async function deleteUserReview(review_id, place_id){
+        //TODO: DELETE FUNCTION CURRENTLY WORKS FOR ALL REVIEWS,
+        //DELETE FUNCTION SHOULD ONLY WORK ON REVIEWS BELONGING TO CURRENT USER
+        deleteReview(getIdTokenClaims(), review_id, place_id)
+        .then(() => {
+            console.log('review deleted')
+            setTimeout(() => {
+                getLocationReviews(targetStoreId).then((res) => {
+                    setReviews([])
+                    setReviews(res)
+                }).catch(err => console.log(err))
+            }, 1000);
+        })
+        .catch((error) => console.log(error))
+    }
+
+    function DelButton(props) {
+        console.log('helloooooo')
+        if(isAuthenticated && user.sub === props.review.author_id.sub) {
+            return(
+                <div>
+                    <button onClick={() => deleteUserReview(props.review._id, props.review.place_id)}>
+                        Delete
+                    </button>
+                </div>
+            )
+        }
     }
 
 
@@ -207,7 +245,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
             <div className = "user-reviews">
                     <p className="store-name">{targetStoreName}</p>
                     <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
-                    {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p></div>)}
+                    {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p><DelButton review={e}></DelButton></div>)}
                     
                     <p>Page {pageNo+1} of {pages}</p>
 

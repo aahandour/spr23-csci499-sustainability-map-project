@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth0 } from '@auth0/auth0-react'
 import './App.css';
 
 import UserReviewsPage from "./userReviewsPage";
-import LogInPrompt from "./LogInPrompt";
+import LoginButton from "./LoginButton";
+import LogoutButton from './logoutButton';
 import MenuButton from "./MenuButton";
 import Menu from "./Menu";
 
 import { GoogleMap, useLoadScript, MarkerF, Autocomplete } from "@react-google-maps/api";
-import { getLocationReviews, postLocationReview } from './backendwrappers';
+import { getLocationReviews, onLogin, postLocationReview } from './backendwrappers';
 
 let center = {lat: 40.761545, lng: -73.975038}//(default center, 5th Ave 55th St area)
 
@@ -39,6 +41,28 @@ function App() {
   let [reviewInput, setReviewInput] = useState('');
 
   const [reviews, setReviews] = useState([]);
+
+  const {isAuthenticated, getIdTokenClaims} = useAuth0()
+
+  const LOG_IN_OUT = () => {
+    if(isAuthenticated){
+      return (
+        <LogoutButton/>
+      )
+    }
+    else if(!isAuthenticated){
+      return <LoginButton/>
+    }
+  }
+
+  useEffect(() => {
+    if(isAuthenticated){
+      const id_token = getIdTokenClaims().then(response => {
+        onLogin(response.__raw)
+        console.log(response)
+      })
+    }
+  }, [isAuthenticated])
 
   //?
   //let [pageNo, setPageNo] = useState(0);
@@ -231,7 +255,7 @@ function App() {
     <div className = "container">
 
       <div className = "navbar">
-        <LogInPrompt loggedInUser={loggedInUser}/>
+        <LOG_IN_OUT/>
         <p>Sustainability Map</p>
         <MenuButton showMenu={showMenu} setShowMenu={setShowMenu} />
       </div>

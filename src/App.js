@@ -302,6 +302,7 @@ function App() {
       <div className = "navbar">
         <LOG_IN_OUT/>
         <p>Nearby Clothing Store Sustainability Map</p>
+        {/* I intended for the menu to hold the navigation for different user things like "profile" or "favorites" */}
         <MenuButton showMenu={showMenu} setShowMenu={setShowMenu} />
       </div>
 

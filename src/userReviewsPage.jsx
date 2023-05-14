@@ -158,7 +158,21 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
                     setReviews([])
                     setReviews(res)
                 }).catch(err => console.log(err))
-            }, 200);
+            }, 1000);
+        })
+        .catch((error) => console.log(error))
+    }
+
+    async function deleteUserReview(review_id, place_id){
+        deleteReview(getIdTokenClaims(), review_id, place_id)
+        .then(() => {
+            console.log('review deleted')
+            setTimeout(() => {
+                getLocationReviews(targetStoreId).then((res) => {
+                    setReviews([])
+                    setReviews(res)
+                }).catch(err => console.log(err))
+            }, 1000);
         })
         .catch((error) => console.log(error))
     }
@@ -216,7 +230,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
             <div className = "user-reviews">
                     <p className="store-name">{targetStoreName}</p>
                     <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
-                    {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p><button>Delete</button></div>)}
+                    {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p><button onClick={() => deleteUserReview(e._id, e.place_id)}>Delete</button></div>)}
                     
                     <p>Page {pageNo+1} of {pages}</p>
 

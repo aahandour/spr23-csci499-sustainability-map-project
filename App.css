@@ -1,5 +1,21 @@
 .App {
+  width: 98vw;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y:auto;
   text-align: center;
+  background-image: url('./images/image2.jpg');
+  min-width: 100%;
+  min-height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+.Product {
+  flex-direction:row;
+  color:white;
 }
 
 .App-logo {
@@ -35,135 +51,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-body {
-  background-color: ivory;
-}
-
-.container {
-  width: 98vw;
-  height: max-content;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow-y:auto;
-}
-
-.searchbar {
-  width: min-content;
-  height: min-content;
-
-  margin-top:10px;
-  margin-bottom:10px;
-}
-
-.map-container {
-  width: 80vw;
-  height: 700px;
-}
-
-.search-button {
-  margin-bottom:10px;
-}
-
-.user-reviews {
-  margin-top: 10px;
-  width: 600px;
-  height: max-content;
-  /*background-color: ivory;*/
-
-  overflow-x:break-word;
-
-  display:flex;
-  flex-direction:column;
-  justify-content: center;
-}
-
-.review-box {
-  /*https://www.w3schools.com/css/css3_borders.asp*/
-  color: #0073df;
-  margin-bottom:20px;
-  background-color:#b8dcff;
-  border-radius: 25px;
-  border: 2px solid #0073df;
-  width: 100%;
-  height: min-content;
-}
-
-p {
-  text-align: center;
-}
-
-.store-name {
-  font-size: 20px;
-  font-weight:bold;
-  padding:10px;
-  color: #0073df;
-  background-color:#b8dcff;
-  border-radius: 25px;
-  border: 2px solid #0073df;
-}
-
-.avg-ranking {
-  margin-top: 0px;
-}
-
-/*.left-container {
-  width: 70%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(122, 87, 33);
-}
-
-.right-container {
-  width: 30%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(61, 122, 33);
-}*/
-
-input[type=text] {
-
-  padding:10px;
-  color: #0073df;
-  border-radius: 25px;
-  border: 2px solid #0073df;
-
-}
-
-.review-input {
-
-  box-sizing: border-box;
-  height: 150px;
-  resize: none;
-  padding:10px;
-  color: #0073df;
-  border-radius: 25px;
-  border: 2px solid #0073df;
-}
-
-.footer {
-  width: 600px;
-  height: 30px;
-}
-
-button {
-  /*https://www.w3schools.com/css/css3_buttons.asp*/
-  background-color: #0073df;
-  color:white;
-  border-radius: 25px;
-  border: 2px solid #0073df;
-  padding:10px;
-}
-
-.submit-button {
-  margin-top: 20px;
 }

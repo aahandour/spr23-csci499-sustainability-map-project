@@ -1,0 +1,10 @@
+.location_container{
+    margin-left: 10rem;
+    margin-right: 10rem;
+    display: flex;
+    justify-content:space-between
+}
+.small_button_container{
+    margin-top: 1.5rem;
+
+}

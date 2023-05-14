@@ -179,6 +179,19 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
         .catch((error) => console.log(error))
     }
 
+    function DelButton(props) {
+        console.log('helloooooo')
+        if(isAuthenticated && user.sub === props.review.author_id.sub) {
+            return(
+                <div>
+                    <button onClick={() => deleteUserReview(props.review._id, props.review.place_id)}>
+                        Delete
+                    </button>
+                </div>
+            )
+        }
+    }
+
 
     //////////////STARS//////////////////
     const selectStars = (button) => {
@@ -232,7 +245,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
             <div className = "user-reviews">
                     <p className="store-name">{targetStoreName}</p>
                     <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
-                    {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p><button onClick={() => deleteUserReview(e._id, e.place_id)}>Delete</button></div>)}
+                    {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p><DelButton review={e}></DelButton></div>)}
                     
                     <p>Page {pageNo+1} of {pages}</p>
 

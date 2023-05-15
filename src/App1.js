@@ -17,6 +17,12 @@ import { getLocationReviews, onLogin, postLocationReview } from './backendwrappe
 */
 let center = {lat: 40.761545, lng: -73.975038}
 
+/*
+NOTE: There is a bug only some of us have in regards to the login: if you login, search and then click on a marker, it may throw an error.
+
+If you log out, you can search and click on markers normally.
+*/
+
 function App() {
 
   let [showMenu, setShowMenu] = useState(false);
@@ -26,11 +32,11 @@ function App() {
   let [markers, setMarkers] = useState(/**@type google.maps.Marker*/([]));
   let [userLocation, setUserLocation] = useState(/**@type google.maps.LatLng*/(null));
 
-  let [infoWindows, setInfoWindows] = useState(/**@type google.maps.InfoWindow*/([])); //the intention is to clear all open infowindows (which are accessible here) when a new one is toggled, but doesn't work yet
-
-  let [targetStoreId, setTargetStoreId] = useState(''); //holds place_id of currently selected place (for purpose of tracking input/output of reviews associated with that place)
+  /* Holds information relating to last clicked place marker */
+  let [targetStoreId, setTargetStoreId] = useState('');
   let [targetStoreName, setTargetStoreName] = useState('');
 
+  /* Passed to user reviews component */
   let [toggleUserReviews, setToggleUserReviews] = useState(false);
   let [avgStars, setAvgStars] = useState(0);
   let [reviewInput, setReviewInput] = useState('');
@@ -65,7 +71,7 @@ function App() {
   useEffect(() => {
 
     setReviews([])
-    console.log(targetStoreId); //outputs place_id string of whatever place marker you click (or rather outputs last clicked marker's place_id....)
+    console.log(targetStoreId);
 
     getLocationReviews(targetStoreId, targetStoreName)
     .then((response) => {
@@ -96,13 +102,14 @@ function App() {
 
     searchLocation();
 
-  }, [userLocation]) /* (calls searchLocation only once userLocation is updated) */
+  }, [userLocation]) /* (Calls searchLocation only once userLocation is updated) */
 
 
   //////////////NEARBY SEARCH//////////////////
   /* 
     Uses Maps Javascript API's Nearby Search service from the Places library to connect user-entered location to a place object.
   */
+ /* Referenced: https://developers.google.com/maps/documentation/javascript/places#place_search_requests */
   let searchLocation = async () => {
 
     /* Request object to be passed to service
@@ -114,7 +121,7 @@ function App() {
     */
     const request = {
       location: userLocation,
-      radius: '20',
+      radius: '40',
       type: ['clothing_store'],
     };
     
@@ -125,97 +132,23 @@ function App() {
         let locationResults = [];
         let tempInfoWindows = [];
 
-        for (var i = 0; i < results.length; i++) {//search for each result within the reviews, display associated data (if it exists).
+        for (var i = 0; i < results.length; i++) {
 
-          //**INFOWINDOWS**//
-          let match = false;
-          if(targetStoreId != ''){
-            for (let j = 0; j < reviews.length; j++) {
-              if (results[i].place_id == reviews[j].place_id) {
-                console.log("match");
-                match = true;
+          const marker = new window.google.maps.Marker({
+            position: results[i].geometry.location,
+            map,
+            pid: results[i].place_id, /* Stores place_id value from places result object */
+            placeName: results[i].name, /* Stores name value from places result object */
+          });
 
-                let star_string = "";
-                for (let k = 0; k < reviews[j].stars; k++) {
-                  star_string += "★";
-                }
+          marker.addListener("click", () => {
 
-                const marker = new window.google.maps.Marker({
-                  position: results[i].geometry.location,
-                  map,
-                  pid: results[i].place_id, //**
-                  placeName: results[i].name,
-                });
+            setTargetStoreId(marker.pid);
+            setTargetStoreName(marker.placeName);
+          });
 
-                const infoText = '<div>' + "<p>" + star_string + "</p>" + "</div>";
-                //add some link or component to allow users to view & submit detailed reviews here (in infoText)
-
-                //const infowindow = new window.google.maps.InfoWindow({
-                //  content: infoText,
-                //});
-                marker.addListener("click", () => {
-
-                  //(Want only one window open at a time, close others upon clicking one)
-                  //for (let i = 0; i < infoWindows.length; i++) {
-                  //  infoWindows[i].close();
-                  //}
-                  //********************************************************************
-
-                  setTargetStoreId(marker.pid); //**
-                  setTargetStoreName(marker.placeName);
-
-                  //infowindow.open({
-                  //  anchor: marker,
-                  //  map,
-                  //});
-
-                });
-
-                //tempInfoWindows.push(infowindow);
-                locationResults.push(marker);//*
-              }
-            }
-          }
-          if (match == false) { //if no matches were found...
-            const marker = new window.google.maps.Marker({
-              position: results[i].geometry.location,
-              map,
-              pid: results[i].place_id, //**
-              placeName: results[i].name,
-            });
-
-            const infoText = '<div>' + "<p>" + "No Review Data" + "</p>" + "</div>";
-            //add some link or component to allow users to view & submit detailed reviews here (in infoText)
-
-            //const infowindow = new window.google.maps.InfoWindow({
-            //  content: infoText,
-            //});
-            marker.addListener("click", () => {
-
-              //(Want only one window open at a time, close others upon clicking one)
-             // for (let i = 0; i < infoWindows.length; i++) {
-              //  infoWindows[i].close();
-              //}
-              //*********************************************************************
-
-              setTargetStoreId(marker.pid); //**
-              setTargetStoreName(marker.placeName);
-
-              //infowindow.open({
-              //  anchor: marker,
-              //  map,
-              //});
-
-            });
-
-            //tempInfoWindows.push(infowindow);
-            locationResults.push(marker);//*
-          }
-
-          //**INFOWINDOWS**//
+          locationResults.push(marker);
         }
-
-        setInfoWindows(tempInfoWindows);
         setMarkers(locationResults);
         console.log("searchLocation called");
       }
@@ -229,6 +162,7 @@ function App() {
     Uses Maps Javascript API's Find Place from Query service from the Places library to return
     an array of clothing store place objects within a radius centered at the user location.
   */
+  /* Referenced: https://developers.google.com/maps/documentation/javascript/places#place_search_requests */
   async function userInputToCoordinates() {
 
     const request = {
@@ -303,13 +237,13 @@ function App() {
       <div className = "navbar">
         <LOG_IN_OUT/>
         <p>Nearby Clothing Store Sustainability Map</p>
-        {/* I intended for the menu to hold the navigation for different user things like "profile" or "favorites" */}
+        {/* I intended for the menu to hold the navigation for different user things like "profile" */}
         <MenuButton showMenu={showMenu} setShowMenu={setShowMenu} />
       </div>
 
       <Menu showMenu={showMenu} isAuthenticated={isAuthenticated}/>
 
-      <Welcome isAuthenticated={isAuthenticated}/>
+      {/* <Welcome isAuthenticated={isAuthenticated}/> */}
 
       <div className = "search">
         <Autocomplete><input type="text" onChange={ input => setUserInput(input.target.value)}></input></Autocomplete>
@@ -340,9 +274,7 @@ export default App;
 /*
 Misc. References: 
   -> https://www.npmjs.com/package/@react-google-maps/api
-  -> 
   -> https://developers.google.com/maps/documentation/places/web-service/supported_types
-  -> https://developers.google.com/maps/documentation/javascript/places#place_search_requests
   -> https://developers.google.com/maps/documentation/javascript/places#place_search_fields
   -> https://developers.google.com/maps/documentation/places/web-service/details (PlacesDetailsResponse, #Place and #Geometry)
   -> https://developers.google.com/maps/documentation/javascript/reference/places-service#LocationBias

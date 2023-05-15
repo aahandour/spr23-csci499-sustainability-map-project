@@ -1,0 +1,3 @@
+[submodule "sustainability-server-jose"]
+	path = sustainability-server-jose
+	url = git@github.com:josemflorencio/sustainability-server.git

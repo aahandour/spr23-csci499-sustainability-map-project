@@ -1,0 +1,33 @@
+.Profilepage{
+    background-color:wheat;   
+}
+.profileStyle{
+
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+.profileform{
+    justify-content: center;
+}
+.rowforprofile{
+    background-color:wheat;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-evenly
+}
+.textforprofile{
+    text-align: left;
+}
+.firstcolumntextforprofile{
+    margin: 0rem 1rem
+}
+.modify_information_button{
+    justify-content:flex-end
+}
+img{
+    margin: 0.5rem 0.5rem
+}
+input{
+    color: black;
+}

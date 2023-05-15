@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getUser, getLocationReviews, postLocationReview, deleteReview} from '../backendwrappers';
 import { useAuth0 } from '@auth0/auth0-react'
 
 import "./Profile.css"
@@ -11,9 +12,24 @@ import MenuButton from "../MenuButton";
 
 
 
+
+
 const Profile = () =>{
-    let [fullname,setFullname ] = useState('jose');
-    let [email,setEmail ] = useState('123@gmail.com');
+    const { isAuthenticated, loginWithRedirect, user, getIdTokenClaims} = useAuth0()
+
+    // const get_user=user;
+    // const get_username=get_user.nickname;
+    // console.log(isAuthenticated) 
+    console.log(user)
+    // console.log(user.sub) 
+    // console.log(user.nickname) 
+
+    // let user_data =getUser(user.sub, getIdTokenClaims);
+    // console.log(user_data);
+    // setFullname(user_data.nickname);
+
+    let [fullname,setFullname ] = useState(user.nickname);
+    let [email,setEmail ] = useState(user.email);
     let [password,setPassword ] = useState('*********');
     let [updatepassword,setUpdatepassword ] = useState('');
     let [birthofdate,setBirthofdate ] = useState('Unkown');
@@ -22,7 +38,16 @@ const Profile = () =>{
     
     let [showMenu, setShowMenu] = useState(false);
 
-    const {isAuthenticated, getIdTokenClaims} = useAuth0()
+    // const { isAuthenticated, loginWithRedirect, user, getIdTokenClaims} = useAuth0()
+
+    // let user_data =getUser(user.sub, getIdTokenClaims);
+    // console.log(user_data);
+    // setFullname(user_data.nickname);
+    // let user_data = getUser(user.sub,getIdTokenClaims);
+    // console.log(user_data);
+    // setFullname(user_data.username)
+
+    // const {isAuthenticated, getIdTokenClaims} = useAuth0()
     return (
         <div> 
             <div className = "navbar">
@@ -40,7 +65,7 @@ const Profile = () =>{
                 <div className='rowforprofile'>
                     <img src={userpicture}/>
                     <div className='firstcolumntextforprofile' >
-                        <p className='textforprofile'>full name: {fullname}</p>
+                        <p className='textforprofile'>user name: {fullname}</p>
                         
                         <p className='textforprofile'>email: {email}</p>
                         

@@ -15,26 +15,25 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     const { isAuthenticated, loginWithRedirect, user, getIdTokenClaims} = useAuth0()
 
     //////////////PAGES//////////////////
-    const maxReviewsPerPage = 2; //low test value
-    let [pages, setPages] = useState(Math.ceil(matchingReviews.length/maxReviewsPerPage)); //https://webdesign.tutsplus.com/tutorials/pagination-with-vanilla-javascript--cms-41896
+    /* Referenced: //https://webdesign.tutsplus.com/tutorials/pagination-with-vanilla-javascript--cms-41896 */
+    const maxReviewsPerPage = 10;
+    let [pages, setPages] = useState(Math.ceil(matchingReviews.length/maxReviewsPerPage));
 
-    /*need a useeffect, because the pages value will have to update with each added review*/
+    /* Pages value has to update with each added review */
     useEffect(() => {
         setPages(Math.ceil(matchingReviews.length/maxReviewsPerPage));
     }, [matchingReviews])
 
-    /* fill with only section corresponding to pageNo*maxReviewsPerPage (this is the first value of the page) */
+    /* Fill with maxReviewsPerPage size section starting from pageNo*maxReviewsPerPage */
     let [currentPageContent, setCurrentPageContent] = useState([]);
     let [pageNo, setPageNo] = useState(0);
 
-    //let [atEndOfPages, setAtEndOfPages] = useState(false);
-    //let [atFrontOfPages, setAtFrontOfPages] = useState(false);
-
-    /* Resets pageNo to first page upon switching targeted store, else something like being on page 3 of a store with only 1 page of reviews can occur */
+    /* Resets pageNo to first page upon switching targeted store, otherwise something like being on page 3 of a store with only 1 page of reviews can occur */
     useEffect(() => {
         setPageNo(0);
     }, [targetStoreName]);
 
+    /* Traverses starting from new calculated section and populates page array variable with reviews */
     useEffect(() => {
 
         console.log("pageNo: "+pageNo);

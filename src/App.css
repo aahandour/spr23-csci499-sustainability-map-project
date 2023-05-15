@@ -190,7 +190,10 @@ button {
 .menu {
   z-index:1;
   position: absolute;
-  background-color:#61dafb;
+  background-color:white;
+  border-radius: 25px;
+  border: 2px solid #0073df;
+  padding:10px;
 
   top: 40px;
   right: 0px;

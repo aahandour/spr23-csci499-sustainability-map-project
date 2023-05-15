@@ -154,7 +154,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
         .then(() => {
             console.log("review posted")
             setTimeout(() => {
-                getLocationReviews(targetStoreId).then((res) => {
+                getLocationReviews(targetStoreId, targetStoreName).then((res) => {
                     setReviews([])
                     setReviews(res)
                 }).catch(err => console.log(err))
@@ -171,7 +171,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
         .then(() => {
             console.log('review deleted')
             setTimeout(() => {
-                getLocationReviews(targetStoreId).then((res) => {
+                getLocationReviews(targetStoreId, targetStoreName).then((res) => {
                     setReviews([])
                     setReviews(res)
                 }).catch(err => console.log(err))

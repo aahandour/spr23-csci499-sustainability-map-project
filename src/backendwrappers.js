@@ -1,25 +1,18 @@
 import axios from 'axios'
 
-async function getUser(user_id, id_token) {
-    if (!user_id || !id_token) {
-        return
-    }
-    const config = {
-        headers : {'Authorization' : `Bearer ${id_token}`}
-    }
-    const user = await axios.get(`http://127.0.0.1:4000/user/${user_id}`, config)
-    return user.data
-}
-
 //sends GET request to backend api for a particular location
 //returns : reviews array for a given location
 //notes : if a marker has no associated database entry, the backend will deal with creating an entry with this endpoint call
-async function getLocationReviews(place_id) {
+async function getLocationReviews(place_id, place_name) {
     console.log(place_id)
     if(!place_id){
         return
     }
-    const response = await axios.get(`http://127.0.0.1:4000/locations/reviews/${place_id}`)
+    const response = await axios.get(`http://127.0.0.1:4000/locations/reviews/${place_id}`, {
+        params: {
+            place_name
+        }
+    })
     return await response.data.reviews
 }
 
@@ -54,7 +47,7 @@ async function onLogin(id_token) {
 }
 
 async function deleteReview(id_token, review_id, place_id) {
-    let config = {
+    const config = {
         headers : {'Authorization' : `Bearer ${id_token}`}
     }
     if(!id_token || !review_id){
@@ -64,4 +57,24 @@ async function deleteReview(id_token, review_id, place_id) {
 
 }
 
-export {getLocationReviews, postLocationReview, onLogin, deleteReview, getUser}
+async function favoriteLocation(user_id, place_id, id_token) {
+    const data = {
+        place_id: place_id
+    }
+    const config = {
+        headers: {'Authorization' : `Bearer ${id_token}`}
+    }
+    if (!id_token || !place_id) {
+        return
+    }
+    await axios.post(`http://127.0.0.1:4000/user/add-favorite/${user_id}`)
+}
+
+async function getUserFavoriteLocations(user_id, id_token) {
+    const config = {
+        headers: {'Authorization' : `Bearer ${id_token}`}
+    }
+    await axios.get(`http://127.0.0.1:4000/user/favorites/${user_id}`)
+}
+
+export {getLocationReviews, postLocationReview, onLogin, deleteReview}

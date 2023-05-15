@@ -7,7 +7,7 @@ async function getUser(user_id, id_token) {
     const config = {
         headers : {'Authorization' : `Bearer ${id_token}`}
     }
-    const user = await axios.get(`http://127.0.0.1:3002/user/${user_id}`, config)
+    const user = await axios.get(`http://127.0.0.1:4000/user/${user_id}`, config)
     return user.data
 }
 
@@ -20,7 +20,7 @@ async function getLocationReviews(place_id, place_name) {
         return
     }
    
-    const response = await axios.get(`http://127.0.0.1:3002/locations/reviews/${place_id}`, {
+    const response = await axios.get(`http://127.0.0.1:4000/locations/reviews/${place_id}`, {
         params: {
             place_name
         }
@@ -35,7 +35,7 @@ async function postLocationReview(place_id, rating, text, user_id, auth_token){
     if(!place_id){
         return "no place_id"
     }
-    const response = axios.post(`http://127.0.0.1:3002/reviews/submit-review`, {
+    const response = axios.post(`http://127.0.0.1:4000/reviews/submit-review`, {
         place_id : place_id,
         user_id : user_id,
         rating : rating,
@@ -54,7 +54,7 @@ async function onLogin(id_token) {
         return
     }
     else{
-        await axios.post(`http://127.0.0.1:3002/login`, {message : 'New User Logged in'}, config);
+        await axios.post(`http://127.0.0.1:4000/login`, {message : 'New User Logged in'}, config);
     }
 }
 
@@ -65,7 +65,7 @@ async function deleteReview(id_token, review_id, place_id) {
     if(!id_token || !review_id){
         return
     }
-    await axios.delete(`http://127.0.0.1:3002/reviews/delete-review/${review_id}`, config)
+    await axios.delete(`http://127.0.0.1:4000/reviews/delete-review/${review_id}`, config)
 
 }
 
@@ -87,7 +87,7 @@ async function getUserFavoriteLocations(user_id, id_token) {
     const config = {
         headers: {'Authorization' : `Bearer ${id_token}`}
     }
-    const favorites = await axios.get(`http://127.0.0.1:3002/user/favorites/${user_id}`)
+    const favorites = await axios.get(`http://127.0.0.1:4000/user/favorites/${user_id}`)
     return favorites.data
 }
 

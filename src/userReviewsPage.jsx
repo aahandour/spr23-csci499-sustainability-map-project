@@ -215,30 +215,6 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     }
 
 
-
-    async function addFavoritestore(review_id, place_id){
-        //add favorite store
-
-
-
-
-
-
-    }
-
-    function FavoriteButton(props) {
-        if(isAuthenticated && user.sub === props.review.author_id.sub) {
-            return(
-                <div>
-                    <button onClick={() =>addFavoritestore(props.review._id, props.review.place_id) }>
-                    Favorite
-                    </button>
-                </div>
-            )
-        }
-    }
-
-
     //////////////STARS//////////////////
     const selectStars = (button) => {
 

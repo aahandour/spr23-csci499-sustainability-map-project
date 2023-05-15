@@ -136,8 +136,8 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
 
     async function submitUserReview() {
 
-        /* add simple Profanities filter? */
         /* add verified status variable in review objects */
+        
         if(!isAuthenticated){
             loginWithRedirect();
         }
@@ -238,7 +238,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
     }
     else if (toggleUserReviews == true) {
 
-        if (matchingReviews != null && matchingReviews.length > 0) { /*REVIEWS EXIST*/
+        if (matchingReviews != null && matchingReviews.length > 0) { /* If there are reviews associated with current selected place */
 
             return (
             <div className = "user-reviews">
@@ -268,7 +268,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
             </div>
             )
         }
-        else { /*NO REVIEWS*/
+        else { /* If there are no reviews */
             return (
             <div className = "user-reviews">
                     <p className="store-name">{targetStoreName}</p>

@@ -103,6 +103,7 @@ function App() {
   /* 
     Uses Maps Javascript API's Nearby Search service from the Places library to connect user-entered location to a place object.
   */
+ /* Referenced: https://developers.google.com/maps/documentation/javascript/places#place_search_requests */
   let searchLocation = async () => {
 
     /* Request object to be passed to service
@@ -155,6 +156,7 @@ function App() {
     Uses Maps Javascript API's Find Place from Query service from the Places library to return
     an array of clothing store place objects within a radius centered at the user location.
   */
+  /* Referenced: https://developers.google.com/maps/documentation/javascript/places#place_search_requests */
   async function userInputToCoordinates() {
 
     const request = {
@@ -266,9 +268,7 @@ export default App;
 /*
 Misc. References: 
   -> https://www.npmjs.com/package/@react-google-maps/api
-  -> 
   -> https://developers.google.com/maps/documentation/places/web-service/supported_types
-  -> https://developers.google.com/maps/documentation/javascript/places#place_search_requests
   -> https://developers.google.com/maps/documentation/javascript/places#place_search_fields
   -> https://developers.google.com/maps/documentation/places/web-service/details (PlacesDetailsResponse, #Place and #Geometry)
   -> https://developers.google.com/maps/documentation/javascript/reference/places-service#LocationBias

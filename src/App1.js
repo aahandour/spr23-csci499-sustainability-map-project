@@ -17,6 +17,12 @@ import { getLocationReviews, onLogin, postLocationReview } from './backendwrappe
 */
 let center = {lat: 40.761545, lng: -73.975038}
 
+/*
+NOTE: There is a bug only some of us have in regards to the login: if you login, search and then click on a marker, it may throw an error.
+
+If you log out, you can search and click on markers normally.
+*/
+
 function App() {
 
   let [showMenu, setShowMenu] = useState(false);

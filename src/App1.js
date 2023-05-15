@@ -231,13 +231,13 @@ function App() {
       <div className = "navbar">
         <LOG_IN_OUT/>
         <p>Nearby Clothing Store Sustainability Map</p>
-        {/* I intended for the menu to hold the navigation for different user things like "profile" or "favorites" */}
+        {/* I intended for the menu to hold the navigation for different user things like "profile" */}
         <MenuButton showMenu={showMenu} setShowMenu={setShowMenu} />
       </div>
 
       <Menu showMenu={showMenu} isAuthenticated={isAuthenticated}/>
 
-      <Welcome isAuthenticated={isAuthenticated}/>
+      {/* <Welcome isAuthenticated={isAuthenticated}/> */}
 
       <div className = "search">
         <Autocomplete><input type="text" onChange={ input => setUserInput(input.target.value)}></input></Autocomplete>

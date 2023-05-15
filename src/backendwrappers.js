@@ -79,7 +79,7 @@ async function favoriteLocation(user_id, place_id, id_token) {
     if (!id_token || !place_id) {
         return
     }
-    await axios.post(`http://127.0.0.1:3002/user/add-favorite/${user_id}`)
+    await axios.post(`http://127.0.0.1:4000/user/add-favorite/${user_id}`, data, config)
     return
 }
 

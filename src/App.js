@@ -13,7 +13,7 @@ import Favorite_stores from "./components/Profile"
 // import image1 from './images/image2.jpg'
 
 function App() {
-
+  
   return (
     <div>
 

@@ -87,7 +87,7 @@ async function getUserFavoriteLocations(user_id, id_token) {
     const config = {
         headers: {'Authorization' : `Bearer ${id_token}`}
     }
-    const favorites = await axios.get(`http://127.0.0.1:4000/user/favorites/${user_id}`)
+    const favorites = await axios.get(`http://127.0.0.1:4000/user/favorites/${user_id}`, config)
     return favorites.data
 }
 

@@ -3,12 +3,16 @@ import axios from 'axios'
 //sends GET request to backend api for a particular location
 //returns : reviews array for a given location
 //notes : if a marker has no associated database entry, the backend will deal with creating an entry with this endpoint call
-async function getLocationReviews(place_id) {
+async function getLocationReviews(place_id, place_name) {
     console.log(place_id)
     if(!place_id){
         return
     }
-    const response = await axios.get(`http://127.0.0.1:4000/locations/reviews/${place_id}`)
+    const response = await axios.get(`http://127.0.0.1:4000/locations/reviews/${place_id}`, {
+        params: {
+            place_name
+        }
+    })
     return await response.data.reviews
 }
 
@@ -31,7 +35,7 @@ async function postLocationReview(place_id, rating, text, user_id, auth_token){
 }
 
 async function onLogin(id_token) {
-    let config = {
+    const config = {
         headers : {'Authorization' : `Bearer ${id_token}`}
     }
     if(!id_token){
@@ -42,4 +46,37 @@ async function onLogin(id_token) {
     }
 }
 
-export {getLocationReviews, postLocationReview, onLogin}
+async function deleteReview(id_token, review_id, place_id) {
+    const config = {
+        headers : {'Authorization' : `Bearer ${id_token}`}
+    }
+    if(!id_token || !review_id){
+        return
+    }
+    await axios.delete(`http://127.0.0.1:4000/reviews/delete-review/${review_id}`, config)
+
+}
+
+async function favoriteLocation(user_id, place_id, id_token) {
+    const data = {
+        place_id: place_id
+    }
+    const config = {
+        headers: {'Authorization' : `Bearer ${id_token}`}
+    }
+    if (!id_token || !place_id) {
+        return
+    }
+    await axios.post(`http://127.0.0.1:4000/user/add-favorite/${user_id}`)
+    return
+}
+
+async function getUserFavoriteLocations(user_id, id_token) {
+    const config = {
+        headers: {'Authorization' : `Bearer ${id_token}`}
+    }
+    const favorites = await axios.get(`http://127.0.0.1:4000/user/favorites/${user_id}`)
+    return favorites.data
+}
+
+export {getLocationReviews, postLocationReview, onLogin, deleteReview, favoriteLocation, getUserFavoriteLocations}

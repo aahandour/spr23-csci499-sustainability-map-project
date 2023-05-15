@@ -66,7 +66,7 @@ function App() {
     setReviews([])
     console.log(targetStoreId); //outputs place_id string of whatever place marker you click (or rather outputs last clicked marker's place_id....)
 
-    getLocationReviews(targetStoreId)
+    getLocationReviews(targetStoreId, targetStoreName)
     .then((response) => {
       console.log(response)
       setReviews(response)

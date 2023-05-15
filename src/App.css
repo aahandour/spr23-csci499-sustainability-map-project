@@ -47,6 +47,12 @@ body {
   /* background-color: darkcyan; */ /* (test color for ease of visibility) */
 }
 
+.favorite-button {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
 .container {
   width: 99.2vw;
   height: max-content;

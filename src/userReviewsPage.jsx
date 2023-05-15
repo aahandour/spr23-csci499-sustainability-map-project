@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getLocationReviews, postLocationReview, deleteReview } from './backendwrappers';
+import { getLocationReviews, postLocationReview, deleteReview, favoriteLocation } from './backendwrappers';
 import { useAuth0 } from "@auth0/auth0-react"
 
 //import PageNavigation from "./pageNavigation";
@@ -191,6 +191,28 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
         }
     }
 
+    async function addFavoriteStore(place_id) {
+        const id = await getIdTokenClaims()
+        favoriteLocation(user.sub, place_id, id.__raw)
+        .then(() => {
+            console.log('success')
+        })
+        .catch((error) => console.log(error))
+    }
+
+    function FavoriteButton(props) {
+        console.log('addstore')
+        if(isAuthenticated) {
+            return(
+                <div>
+                    <button onClick={() => addFavoriteStore(props.place_id)}>
+                        Favorite
+                    </button>
+                </div>
+            )
+        }
+    }
+
 
     //////////////STARS//////////////////
     const selectStars = (button) => {
@@ -242,7 +264,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
 
             return (
             <div className = "user-reviews">
-                    <p className="store-name">{targetStoreName}</p>
+                    <p className="store-name">{targetStoreName}</p><FavoriteButton place_id={targetStoreId}></FavoriteButton>
                     <p className="avg-ranking"><b>{avgStars} Stars</b> Average Community Ranking</p>
                     {currentPageContent.map(e => <div className = "review-box"><p>{e.rating} out of 5 Stars</p><p>{e.review}</p><DelButton review={e}></DelButton></div>)}
                     
@@ -271,7 +293,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
         else { /*NO REVIEWS*/
             return (
             <div className = "user-reviews">
-                    <p className="store-name">{targetStoreName}</p>
+                    <p className="store-name">{targetStoreName}</p><FavoriteButton place_id={targetStoreId}></FavoriteButton>
 
                     <p>Found information? Submit a review!</p>
 

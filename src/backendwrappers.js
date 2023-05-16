@@ -91,7 +91,20 @@ async function getUserFavoriteLocations(user_id, id_token) {
     return favorites.data
 }
 
-export {getLocationReviews, postLocationReview, onLogin, deleteReview, favoriteLocation, getUserFavoriteLocations}
+async function deleteUserFavoriteLocation(user_id, place_id, id_token) {
+    const config = {
+        headers: {
+            headers: {'Authorization' : `Bearer ${id_token}`}
+        },
+        params: {
+            place_id
+        }
+    }
+    await axios.delete(`http://127.0.0.1:4000/user/delete-favorite/${user_id}`, config)
+    return
+}
+
+export {getLocationReviews, postLocationReview, onLogin, deleteReview, favoriteLocation, getUserFavoriteLocations, deleteUserFavoriteLocation}
 
 
 

@@ -1,5 +1,7 @@
 .Profilepage{
-    background-color:wheat;   
+    background-color:white;
+    padding:10px;
+    border-bottom:2px solid #0073df;
 }
 .profileStyle{
 
@@ -11,7 +13,7 @@
     justify-content: center;
 }
 .rowforprofile{
-    background-color:wheat;
+    /*background-color:wheat;*/
     display: flex;
     flex-direction: row;
     justify-content:space-evenly
@@ -29,5 +31,21 @@ img{
     margin: 0.5rem 0.5rem
 }
 input{
-    color: black;
+    color: #0073df;
+}
+
+b {
+    color: hotpink;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight:bold;
+    padding:10px;
+    color: #0073df;
+    background-color:#b8dcff;
+    border-radius: 25px;
+    border: 2px solid #0073df;
+    margin-bottom: 20px;
+    margin-top: 10px;
 }

@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
 import './Onelocationrecord.css'
+import { useAuth0 } from '@auth0/auth0-react';
+import { getLocationReviews, postLocationReview, deleteUserFavoriteLocation } from '../backendwrappers';
 
-function Onelocationrecord(){
+function Onelocationrecord(prop){
+    const { isAuthenticated, loginWWithRedirect, user, getIdTokenClaims } = useAuth0()
+
+    async function RemoveStore(place_id) {
+        const id = await getIdTokenClaims()
+        deleteUserFavoriteLocation(user.sub, place_id, id.__raw)
+        .then(() => {
+            console.log('Removed successfully')
+        })
+        .catch(err => console.log(err))
+    }
     return(
         <>
         <div className='location_container'>
             <div>
-                <p className='textforprofile'>location: </p>
+                <p className='textforprofile'>location: {prop.name}</p>
                         
                 <p className='textforprofile'>star: </p>
             </div>
             <div>
                 <div className='small_button_container'>
-                    <button>remove</button>
+                    <button onClick={() => RemoveStore(prop.place_id)}>remove</button>
                 </div>
             </div>
         </div>
@@ -21,4 +33,4 @@ function Onelocationrecord(){
     )
    }
    
-   export default Onelocationrecord;
+   export {Onelocationrecord};

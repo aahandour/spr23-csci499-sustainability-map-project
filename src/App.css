@@ -48,6 +48,7 @@ body {
 }
 
 .favorite-button {
+  background-color: hotpink;
   justify-content: center;
   align-items: center;
   display: flex;

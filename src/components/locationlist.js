@@ -26,7 +26,7 @@ const Location = () =>{
         <div className='textpart'>
             <h3>{/*Your favourite location of clothing store*/}Favorite Locations</h3>
             <button onClick={handlecheck}>{/*check store list*/}Update</button>
-            <hr />
+            {/*<hr />*/}
         </div>
         {
           store.map(e=>Onelocationrecord(e))

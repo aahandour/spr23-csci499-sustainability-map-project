@@ -20,7 +20,7 @@ function Onelocationrecord(prop){
             <div>
                 <p className='textforprofile'>Store Name: {prop.name}</p>
                         
-                <p className='textforprofile'>Rating: </p>
+                {/*<p className='textforprofile'>Rating: </p>*/}
             </div>
             <div>
                 <div className='small_button_container'>

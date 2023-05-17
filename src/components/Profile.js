@@ -53,7 +53,6 @@ const Profile = () =>{
             <div className = "navbar">
                 <LOG_IN_OUT isAuthenticated={isAuthenticated}/>
                 <p>Nearby Clothing Store Sustainability Map</p>
-                {/* I intended for the menu to hold the navigation for different user things like "profile" or "favorites" */}
                 <MenuButton showMenu={showMenu} setShowMenu={setShowMenu} />
             </div>
             <Menu showMenu={showMenu} isAuthenticated={isAuthenticated}/>
@@ -61,18 +60,18 @@ const Profile = () =>{
             <div>
             <div>
                 <h3>My Profile</h3>
-                <hr />
+                {/*<hr />*/}
                 <div className='rowforprofile'>
                     <img src={userpicture}/>
                     <div className='firstcolumntextforprofile' >
-                        <p className='textforprofile'>Display Name: {fullname}</p>
+                        <p className='textforprofile'><b>Display Name:</b> {fullname}</p>
                         
-                        <p className='textforprofile'>Email: {email}</p>
+                        <p className='textforprofile'><b>Email:</b> {email}</p>
                         
                         {/*<p className='textforprofile'>password: {password}</p>*/}
                     </div>
                     <div className='firstcolumntextforprofile' >
-                        <p className='textforprofile'>Date of Birth: {birthofdate}</p>
+                        <p className='textforprofile'><b>Date of Birth:</b> {birthofdate}</p>
                         
                         {/*<p className='textforprofile'>age: {age}</p>*/}
                         
@@ -83,9 +82,9 @@ const Profile = () =>{
                         <button>Modify Information</button>
                     </div>
                 </div>
-                <hr/>
+                {/*<hr />*/}
                 <Location/>
-                <hr/>
+                {/*<hr />*/}
                 {/* <div className='profileStyle'>
                     <div className='profileform'>
                         <label>full name</label>

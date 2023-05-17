@@ -141,7 +141,7 @@ input[type=text] {
 }
 
 .review-input {
-
+  margin-top: 20px;
   box-sizing: border-box;
   height: 150px;
   resize: none;

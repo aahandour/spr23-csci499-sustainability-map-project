@@ -18,13 +18,13 @@ function Onelocationrecord(prop){
         <>
         <div className='location_container'>
             <div>
-                <p className='textforprofile'>location: {prop.name}</p>
+                <p className='textforprofile'>Store Name: {prop.name}</p>
                         
-                <p className='textforprofile'>star: </p>
+                <p className='textforprofile'>Rating: </p>
             </div>
             <div>
                 <div className='small_button_container'>
-                    <button onClick={() => RemoveStore(prop.place_id)}>remove</button>
+                    <button onClick={() => RemoveStore(prop.place_id)}>Remove</button>
                 </div>
             </div>
         </div>

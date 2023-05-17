@@ -105,12 +105,7 @@ const UserReviewsPage = ({targetStoreName, setTargetStoreName, reviewInput, setR
 
     }, [currentPageContent])
 
-
-    /* Still has bug where adding a new review does not reflect instantly... */
-
     /////////////////////////////////////
-
-
 
     useEffect(() => {
         if(reviews){

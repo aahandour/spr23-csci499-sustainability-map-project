@@ -65,9 +65,6 @@ function App() {
   }, [isAuthenticated])
 
 
-  /*
-    Referenced: https://stackoverflow.com/questions/11378450/google-map-api-v3-how-to-add-custom-data-to-markers
-  */
   useEffect(() => {
 
     setReviews([])
@@ -109,7 +106,10 @@ function App() {
   /* 
     Uses Maps Javascript API's Nearby Search service from the Places library to connect user-entered location to a place object.
   */
- /* Referenced: https://developers.google.com/maps/documentation/javascript/places#place_search_requests */
+  /* Referenced: 
+     https://developers.google.com/maps/documentation/javascript/places#place_search_requests
+     https://stackoverflow.com/questions/11378450/google-map-api-v3-how-to-add-custom-data-to-markers
+  */
   let searchLocation = async () => {
 
     /* Request object to be passed to service

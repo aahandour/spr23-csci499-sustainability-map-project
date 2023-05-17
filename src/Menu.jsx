@@ -21,11 +21,11 @@ const Menu = ({showMenu,isAuthenticated}) => {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/profile">profile</Link>
+                        <Link to="/profile">Profile</Link>
                     </li>
-                    <li>
+                    {/*<li>
                         <Link to="/favorite_stores">favorite</Link>
-                    </li>
+                    </li>*/}
                 </ul>
 
             </div>

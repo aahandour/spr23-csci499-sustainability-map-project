@@ -32,9 +32,9 @@ const Profile = () =>{
     let [email,setEmail ] = useState(user.email);
     let [password,setPassword ] = useState('*********');
     let [updatepassword,setUpdatepassword ] = useState('');
-    let [birthofdate,setBirthofdate ] = useState('Unkown');
-    let [age,setAge ] = useState('Unkown');
-    let [sex,setSex ] = useState('Unkown');
+    let [birthofdate,setBirthofdate ] = useState('Unknown');
+    let [age,setAge ] = useState('Unknown');
+    let [sex,setSex ] = useState('Unknown');
     
     let [showMenu, setShowMenu] = useState(false);
 

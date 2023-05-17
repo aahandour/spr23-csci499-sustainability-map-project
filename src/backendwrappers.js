@@ -94,7 +94,7 @@ async function getUserFavoriteLocations(user_id, id_token) {
 async function deleteUserFavoriteLocation(user_id, place_id, id_token) {
     const config = {
         headers: {
-            headers: {'Authorization' : `Bearer ${id_token}`}
+            'Authorization' : `Bearer ${id_token}`
         },
         params: {
             place_id

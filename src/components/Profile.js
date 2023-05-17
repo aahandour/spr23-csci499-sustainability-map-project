@@ -60,27 +60,27 @@ const Profile = () =>{
         <div className='Profilepage'>
             <div>
             <div>
-                <h3>Your Profile</h3>
+                <h3>My Profile</h3>
                 <hr />
                 <div className='rowforprofile'>
                     <img src={userpicture}/>
                     <div className='firstcolumntextforprofile' >
-                        <p className='textforprofile'>user name: {fullname}</p>
+                        <p className='textforprofile'>Display Name: {fullname}</p>
                         
-                        <p className='textforprofile'>email: {email}</p>
+                        <p className='textforprofile'>Email: {email}</p>
                         
-                        <p className='textforprofile'>password: {password}</p>
+                        {/*<p className='textforprofile'>password: {password}</p>*/}
                     </div>
                     <div className='firstcolumntextforprofile' >
-                        <p className='textforprofile'>birth of date: {birthofdate}</p>
+                        <p className='textforprofile'>Date of Birth: {birthofdate}</p>
                         
-                        <p className='textforprofile'>age: {age}</p>
+                        {/*<p className='textforprofile'>age: {age}</p>*/}
                         
-                        <p className='textforprofile'>sex: {sex}</p>
+                        {/*<p className='textforprofile'>sex: {sex}</p>*/}
                     </div>
                     <div className='modify_information_button'>
                         <p></p>
-                        <button>Modify information</button>
+                        <button>Modify Information</button>
                     </div>
                 </div>
                 <hr/>
